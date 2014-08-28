@@ -27,50 +27,46 @@ public class EncodeFunctions {
 						M[i][j][k][z] = (i << 6) | (j << 4) | (k << 2) | z;
 	}
 
-	public static final int getNumOfBytes(final int v) {
+	private static final int getNumOfBytes(final int v) {
 
-		final int c = Integer.numberOfLeadingZeros(v);
-		switch (c) {
-		case 32:
-		case 31:
-		case 30:
-		case 29:
-		case 28:
-		case 27:
-		case 26:
-		case 25:
-		case 24:
-			return 1;
-		case 23:
-		case 22:
-		case 21:
-		case 20:
-		case 19:
-		case 18:
-		case 17:
-		case 16:
-			return 2;
-		case 15:
-		case 14:
-		case 13:
-		case 12:
-		case 11:
-		case 10:
-		case 9:
-		case 8:
-			return 3;
-		default:
-			return 4;
-		}
+//		final int c = Integer.numberOfLeadingZeros(v);
+//		switch (c) {
+//		case 32:
+//		case 31:
+//		case 30:
+//		case 29:
+//		case 28:
+//		case 27:
+//		case 26:
+//		case 25:
+//		case 24:
+//			return 1;
+//		case 23:
+//		case 22:
+//		case 21:
+//		case 20:
+//		case 19:
+//		case 18:
+//		case 17:
+//		case 16:
+//			return 2;
+//		case 15:
+//		case 14:
+//		case 13:
+//		case 12:
+//		case 11:
+//		case 10:
+//		case 9:
+//		case 8:
+//			return 3;
+//		default:
+//			return 4;
+//		}
 
-		// if ((v & 0xFFFFFF00) == 0)
-		// return 1;
-		// else if ((v & 0xFFFF0000) == 0)
-		// return 2;
-		// else if ((v & 0xFF000000) == 0)
-		// return 3;
-		// else
-		// return 4;
+		 if ((v & 0xFFFFFF00) == 0) return 1;
+		 if ((v & 0xFFFF0000) == 0) return 2;
+		 if ((v & 0xFF000000) == 0) return 3;
+		 return 4;
 	}
 
 	public static final int encode(final int[] in, final int inOffset,

@@ -3924,10 +3924,10 @@ public class DecodeFunctions {
 
 	public static final int readUncompressedInt(byte[] in, int inOffset) {
 		
-		int i = in[inOffset++];
-		i = (i << 8) | in[inOffset++];
-		i = (i << 8) | in[inOffset++];
-		i = (i << 8) | in[inOffset];
+		int i = (in[inOffset++] & 0xFF);
+		i = (i << 8) | (in[inOffset++] & 0xFF);
+		i = (i << 8) | (in[inOffset++] & 0xFF);
+		i = (i << 8) | (in[inOffset] & 0xFF);
 		
 		return i;
 	}

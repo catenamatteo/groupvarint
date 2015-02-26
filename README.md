@@ -1,7 +1,7 @@
 groupvarint
 ===========
 
-A Java implementation of **groupvarint**, a technique for the compression of integer numbers. 
+A Java implementation of **Group Varint**, a technique for the compression of integer numbers. 
 
 ### Dependencies 
 * JUnit 4

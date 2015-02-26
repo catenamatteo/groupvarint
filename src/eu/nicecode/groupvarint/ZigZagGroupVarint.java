@@ -32,7 +32,7 @@ public class ZigZagGroupVarint {
 	 * @param length
 	 * @param out
 	 * @param outOffset
-	 * @return
+	 * @return new offset in out[]
 	 */
 	public static final int compress(int[] in, int inOffset, int length, byte[] out,
 			int outOffset) {
@@ -48,7 +48,7 @@ public class ZigZagGroupVarint {
 	 * @param out
 	 * @param outOffset
 	 * @param length
-	 * @return
+	 * @return new offset in in[]
 	 */
 	public static final int uncompress(byte[] in, int inOffset, int[] out, int outOffset,
 			int length) {

@@ -38,7 +38,8 @@ public class GroupVarint {
 	 *            the compressed byte array (destination)
 	 * @param outOffset
 	 *            {@code out} starting offset
-	 * @return
+	 * @return new offset in out[]
+	 * 
 	 */
 	public static final int compress(int[] in, int inOffset, int length,
 			byte[] out, int outOffset) {
@@ -71,7 +72,7 @@ public class GroupVarint {
 	 *            {@code out} starting offset
 	 * @param length
 	 *            number of ints to be uncompressed
-	 * @return
+	 * @return new offset in in[]
 	 */
 	public static final int uncompress(byte[] in, int inOffset, int[] out,
 			int outOffset, int length) {

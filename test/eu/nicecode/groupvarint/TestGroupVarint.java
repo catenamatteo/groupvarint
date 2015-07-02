@@ -1,6 +1,6 @@
 package eu.nicecode.groupvarint;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.util.Arrays;
 
@@ -8,6 +8,9 @@ import org.junit.Test;
 
 public class TestGroupVarint {
 
+	private GroupVarint groupVarint = new GroupVarint();
+	private ZigZagGroupVarint zigZagGroupVarint = new ZigZagGroupVarint();
+	
 	@Test
 	public void test4() {
 		
@@ -15,8 +18,8 @@ public class TestGroupVarint {
 		byte b[] = new byte[GroupVarint.getSafeCompressedLength(a.length)];
 		int c[] = new int[a.length];
 		
-		GroupVarint.compress(a, 0, a.length, b, 0);
-		GroupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.compress(a, 0, a.length, b, 0);
+		groupVarint.uncompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -28,8 +31,8 @@ public class TestGroupVarint {
 		byte b[] = new byte[GroupVarint.getSafeCompressedLength(a.length)];
 		int c[] = new int[a.length];
 		
-		GroupVarint.compress(a, 0, a.length, b, 0);
-		GroupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.compress(a, 0, a.length, b, 0);
+		groupVarint.uncompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -41,8 +44,8 @@ public class TestGroupVarint {
 		byte b[] = new byte[GroupVarint.getSafeCompressedLength(a.length)];
 		int c[] = new int[a.length];
 		
-		GroupVarint.compress(a, 0, a.length, b, 0);
-		GroupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.compress(a, 0, a.length, b, 0);
+		groupVarint.uncompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -54,8 +57,8 @@ public class TestGroupVarint {
 		byte b[] = new byte[GroupVarint.getSafeCompressedLength(a.length)];
 		int c[] = new int[a.length];
 		
-		GroupVarint.compress(a, 0, a.length, b, 0);
-		GroupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.compress(a, 0, a.length, b, 0);
+		groupVarint.uncompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -67,8 +70,8 @@ public class TestGroupVarint {
 		byte b[] = new byte[GroupVarint.getSafeCompressedLength(a.length)];
 		int c[] = new int[a.length];
 		
-		GroupVarint.compress(a, 0, a.length, b, 0);
-		GroupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.compress(a, 0, a.length, b, 0);
+		groupVarint.uncompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -80,8 +83,8 @@ public class TestGroupVarint {
 		byte b[] = new byte[GroupVarint.getSafeCompressedLength(a.length)];
 		int c[] = new int[a.length];
 		
-		GroupVarint.compress(a, 0, a.length, b, 0);
-		GroupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.compress(a, 0, a.length, b, 0);
+		groupVarint.uncompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -94,8 +97,8 @@ public class TestGroupVarint {
 		int c[] = new int[a.length];
 		int support[] = Arrays.copyOf(a, a.length);
 		
-		ZigZagGroupVarint.compress(support, 0, support.length, b, 0);
-		ZigZagGroupVarint.uncompress(b, 0, c, 0, a.length);
+		zigZagGroupVarint.compress(support, 0, support.length, b, 0);
+		zigZagGroupVarint.uncompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -108,8 +111,8 @@ public class TestGroupVarint {
 		int c[] = new int[a.length];
 		c[0] = 1;
 		
-		GroupVarint.compress(a, 1, a.length - 1, b, 0);
-		GroupVarint.uncompress(b, 0, c, 1, a.length - 1);
+		groupVarint.compress(a, 1, a.length - 1, b, 0);
+		groupVarint.uncompress(b, 0, c, 1, a.length - 1);
 		
 		assertArrayEquals(a, c);
 	}
@@ -122,8 +125,8 @@ public class TestGroupVarint {
 		int c[] = new int[a.length];
 		c[0] = 1;
 		
-		GroupVarint.compress(a, 0, a.length, b, 10);
-		GroupVarint.uncompress(b, 10, c, 0, a.length);
+		groupVarint.compress(a, 0, a.length, b, 10);
+		groupVarint.uncompress(b, 10, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}

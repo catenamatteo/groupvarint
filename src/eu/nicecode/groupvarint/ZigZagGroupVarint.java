@@ -16,17 +16,25 @@
 package eu.nicecode.groupvarint;
 
 /**
- * A wrapper for GroupVarint which uses zig-zag encoding.
- * Useful when dealing with negatives number, to improve compression ratio.
+ * A wrapper for GroupVarint which uses zig-zag encoding. Useful when dealing
+ * with negatives number, to improve compression ratio.
  * 
  * @author Matteo Catena
  *
  */
 public class ZigZagGroupVarint {
+
+	private GroupVarint groupVarint;
 	
+	public ZigZagGroupVarint() {
+		
+		groupVarint = new GroupVarint();
+	}
+
 	/**
-	 * See {@link GroupVarint#compress(int[], int, int, byte[], int)}
-	 * Be careful!! This method modifies {@code in} content!!
+	 * See {@link GroupVarint#compress(int[], int, int, byte[], int)} Be
+	 * careful!! This method modifies {@code in} content!!
+	 * 
 	 * @param in
 	 * @param inOffset
 	 * @param length
@@ -34,15 +42,17 @@ public class ZigZagGroupVarint {
 	 * @param outOffset
 	 * @return new offset in out[]
 	 */
-	public static final int compress(int[] in, int inOffset, int length, byte[] out,
+	public final int compress(int[] in, int inOffset, int length, byte[] out,
 			int outOffset) {
-		
-		for (int i = 0; i < length; i++) in[inOffset + i] = zig(in[inOffset + i]);
-		return GroupVarint.compress(in, inOffset, length, out, outOffset);
+
+		for (int i = 0; i < length; i++)
+			in[inOffset + i] = zig(in[inOffset + i]);
+		return groupVarint.compress(in, inOffset, length, out, outOffset);
 	}
 
 	/**
 	 * See {@link GroupVarint#uncompress(byte[], int, int[], int, int)}
+	 * 
 	 * @param in
 	 * @param inOffset
 	 * @param out
@@ -50,22 +60,22 @@ public class ZigZagGroupVarint {
 	 * @param length
 	 * @return new offset in in[]
 	 */
-	public static final int uncompress(byte[] in, int inOffset, int[] out, int outOffset,
-			int length) {
-		
-		int rtn = GroupVarint.uncompress(in, inOffset, out, outOffset, length);
-		for (int i = 0; i < length; i++) out[outOffset + i] = zag(out[outOffset + i]);
+	public final int uncompress(byte[] in, int inOffset, int[] out,
+			int outOffset, int length) {
+
+		int rtn = groupVarint.uncompress(in, inOffset, out, outOffset, length);
+		for (int i = 0; i < length; i++)
+			out[outOffset + i] = zag(out[outOffset + i]);
 		return rtn;
 	}
-	
-	 /** From two's complement to zigzag. */
-	private static final int zig(int n)
-	{
+
+	/** From two's complement to zigzag. */
+	private int zig(int n) {
 		return (n << 1) ^ (n >> 31);
 	}
+
 	/** From zigzag to two's complement. */
-	private static final int zag(int n)
-	{
+	private int zag(int n) {
 		return (n >>> 1) ^ -(n & 1);
 	}
 

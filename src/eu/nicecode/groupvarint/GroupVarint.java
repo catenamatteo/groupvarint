@@ -24,6 +24,16 @@ package eu.nicecode.groupvarint;
  */
 public class GroupVarint {
 
+	private EncodeFunctions encodeFunctions;
+	private DecodeFunctions decodeFunctions;
+
+	public GroupVarint() {
+		
+		encodeFunctions = new EncodeFunctions();
+		decodeFunctions = new DecodeFunctions();
+		
+	}
+	
 	/**
 	 * Compress an int array into a byte array
 	 * 
@@ -41,18 +51,19 @@ public class GroupVarint {
 	 * @return new offset in out[]
 	 * 
 	 */
-	public static final int compress(int[] in, int inOffset, int length,
-			byte[] out, int outOffset) {
+	public final int compress(int[] in, int inOffset, int length, byte[] out,
+			int outOffset) {
 
 		final int cond = length / 4 * 4;
 		while (inOffset < cond) {
 
-			outOffset += EncodeFunctions.encode(in, inOffset, out, outOffset);
+			outOffset += encodeFunctions.encode(in, inOffset, out, outOffset);
 			inOffset += 4;
 		}
 
 		for (int i = 0; i < length - cond; i++) {
-			EncodeFunctions.writeUncompressedInt(in[i+inOffset], out, outOffset);
+			encodeFunctions.writeUncompressedInt(in[i + inOffset], out,
+					outOffset);
 			outOffset += 4;
 		}
 
@@ -74,21 +85,21 @@ public class GroupVarint {
 	 *            number of ints to be uncompressed
 	 * @return new offset in in[]
 	 */
-	public static final int uncompress(byte[] in, int inOffset, int[] out,
+	public final int uncompress(byte[] in, int inOffset, int[] out,
 			int outOffset, int length) {
 
 		final int cond = length / 4 * 4;
 		while (outOffset < cond) {
 
 			int code = 0xFF & in[inOffset++];
-			inOffset += DecodeFunctions.decode(in, inOffset, code, out,
+			inOffset += decodeFunctions.decode(in, inOffset, code, out,
 					outOffset);
 			outOffset += 4;
 		}
 
 		for (int i = 0; i < length - cond; i++) {
 
-			out[outOffset++] = DecodeFunctions
+			out[outOffset++] = decodeFunctions
 					.readUncompressedInt(in, inOffset);
 			inOffset += 4;
 		}

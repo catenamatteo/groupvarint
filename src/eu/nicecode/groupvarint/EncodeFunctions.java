@@ -27,55 +27,27 @@ public class EncodeFunctions {
 						M[i][j][k][z] = (i << 6) | (j << 4) | (k << 2) | z;
 	}
 
-	private static final int getNumOfBytes(final int v) {
+	private int getNumOfBytes(final int v) {
 
-//		final int c = Integer.numberOfLeadingZeros(v);
-//		switch (c) {
-//		case 32:
-//		case 31:
-//		case 30:
-//		case 29:
-//		case 28:
-//		case 27:
-//		case 26:
-//		case 25:
-//		case 24:
-//			return 1;
-//		case 23:
-//		case 22:
-//		case 21:
-//		case 20:
-//		case 19:
-//		case 18:
-//		case 17:
-//		case 16:
-//			return 2;
-//		case 15:
-//		case 14:
-//		case 13:
-//		case 12:
-//		case 11:
-//		case 10:
-//		case 9:
-//		case 8:
-//			return 3;
-//		default:
-//			return 4;
-//		}
-
-		 if ((v & 0xFFFFFF00) == 0) return 1;
-		 if ((v & 0xFFFF0000) == 0) return 2;
-		 if ((v & 0xFF000000) == 0) return 3;
-		 return 4;
+		if ((v & 0xFFFFFF00) == 0)
+			return 1;
+		if ((v & 0xFFFF0000) == 0)
+			return 2;
+		if ((v & 0xFF000000) == 0)
+			return 3;
+		return 4;
 	}
 
-	public static final int encode(final int[] in, final int inOffset,
+	/*
+	 * Unfortunately, this big switch seems to be a huge bottleneck! :-(
+	 */
+	protected final int encode(final int[] in, final int inOffset,
 			final byte[] out, final int outOffset) {
 
-		final int m0 = EncodeFunctions.getNumOfBytes(in[inOffset]) - 1;
-		final int m1 = EncodeFunctions.getNumOfBytes(in[inOffset + 1]) - 1;
-		final int m2 = EncodeFunctions.getNumOfBytes(in[inOffset + 2]) - 1;
-		final int m3 = EncodeFunctions.getNumOfBytes(in[inOffset + 3]) - 1;
+		final int m0 = this.getNumOfBytes(in[inOffset]) - 1;
+		final int m1 = this.getNumOfBytes(in[inOffset + 1]) - 1;
+		final int m2 = this.getNumOfBytes(in[inOffset + 2]) - 1;
+		final int m3 = this.getNumOfBytes(in[inOffset + 3]) - 1;
 		final int code = M[m0][m1][m2][m3];
 
 		switch (code) {
@@ -597,7 +569,7 @@ public class EncodeFunctions {
 
 	}
 
-	private static final int encode0(final int[] in, final int inOffset,
+	private int encode0(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -607,7 +579,7 @@ public class EncodeFunctions {
 		return 5;
 	}
 
-	private static final int encode1(final int[] in, final int inOffset,
+	private int encode1(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -618,7 +590,7 @@ public class EncodeFunctions {
 		return 6;
 	}
 
-	private static final int encode2(final int[] in, final int inOffset,
+	private int encode2(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -630,7 +602,7 @@ public class EncodeFunctions {
 		return 7;
 	}
 
-	private static final int encode3(final int[] in, final int inOffset,
+	private int encode3(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -643,7 +615,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode4(final int[] in, final int inOffset,
+	private int encode4(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -654,7 +626,7 @@ public class EncodeFunctions {
 		return 6;
 	}
 
-	private static final int encode5(final int[] in, final int inOffset,
+	private int encode5(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -666,7 +638,7 @@ public class EncodeFunctions {
 		return 7;
 	}
 
-	private static final int encode6(final int[] in, final int inOffset,
+	private int encode6(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -679,7 +651,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode7(final int[] in, final int inOffset,
+	private int encode7(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -693,7 +665,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode8(final int[] in, final int inOffset,
+	private int encode8(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -705,7 +677,7 @@ public class EncodeFunctions {
 		return 7;
 	}
 
-	private static final int encode9(final int[] in, final int inOffset,
+	private int encode9(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -718,7 +690,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode10(final int[] in, final int inOffset,
+	private int encode10(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -732,7 +704,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode11(final int[] in, final int inOffset,
+	private int encode11(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -747,7 +719,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode12(final int[] in, final int inOffset,
+	private int encode12(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -760,7 +732,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode13(final int[] in, final int inOffset,
+	private int encode13(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -774,7 +746,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode14(final int[] in, final int inOffset,
+	private int encode14(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -789,7 +761,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode15(final int[] in, final int inOffset,
+	private int encode15(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -805,7 +777,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode16(final int[] in, final int inOffset,
+	private int encode16(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -816,7 +788,7 @@ public class EncodeFunctions {
 		return 6;
 	}
 
-	private static final int encode17(final int[] in, final int inOffset,
+	private int encode17(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -828,7 +800,7 @@ public class EncodeFunctions {
 		return 7;
 	}
 
-	private static final int encode18(final int[] in, final int inOffset,
+	private int encode18(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -841,7 +813,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode19(final int[] in, final int inOffset,
+	private int encode19(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -855,7 +827,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode20(final int[] in, final int inOffset,
+	private int encode20(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -867,7 +839,7 @@ public class EncodeFunctions {
 		return 7;
 	}
 
-	private static final int encode21(final int[] in, final int inOffset,
+	private int encode21(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -880,7 +852,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode22(final int[] in, final int inOffset,
+	private int encode22(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -894,7 +866,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode23(final int[] in, final int inOffset,
+	private int encode23(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -909,7 +881,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode24(final int[] in, final int inOffset,
+	private int encode24(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -922,7 +894,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode25(final int[] in, final int inOffset,
+	private int encode25(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -936,7 +908,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode26(final int[] in, final int inOffset,
+	private int encode26(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -951,7 +923,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode27(final int[] in, final int inOffset,
+	private int encode27(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -967,7 +939,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode28(final int[] in, final int inOffset,
+	private int encode28(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -981,7 +953,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode29(final int[] in, final int inOffset,
+	private int encode29(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -996,7 +968,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode30(final int[] in, final int inOffset,
+	private int encode30(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1012,7 +984,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode31(final int[] in, final int inOffset,
+	private int encode31(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1029,7 +1001,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode32(final int[] in, final int inOffset,
+	private int encode32(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1041,7 +1013,7 @@ public class EncodeFunctions {
 		return 7;
 	}
 
-	private static final int encode33(final int[] in, final int inOffset,
+	private int encode33(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1054,7 +1026,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode34(final int[] in, final int inOffset,
+	private int encode34(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1068,7 +1040,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode35(final int[] in, final int inOffset,
+	private int encode35(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1083,7 +1055,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode36(final int[] in, final int inOffset,
+	private int encode36(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1096,7 +1068,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode37(final int[] in, final int inOffset,
+	private int encode37(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1110,7 +1082,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode38(final int[] in, final int inOffset,
+	private int encode38(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1125,7 +1097,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode39(final int[] in, final int inOffset,
+	private int encode39(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1141,7 +1113,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode40(final int[] in, final int inOffset,
+	private int encode40(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1155,7 +1127,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode41(final int[] in, final int inOffset,
+	private int encode41(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1170,7 +1142,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode42(final int[] in, final int inOffset,
+	private int encode42(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1186,7 +1158,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode43(final int[] in, final int inOffset,
+	private int encode43(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1203,7 +1175,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode44(final int[] in, final int inOffset,
+	private int encode44(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1218,7 +1190,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode45(final int[] in, final int inOffset,
+	private int encode45(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1234,7 +1206,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode46(final int[] in, final int inOffset,
+	private int encode46(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1251,7 +1223,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode47(final int[] in, final int inOffset,
+	private int encode47(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1269,7 +1241,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode48(final int[] in, final int inOffset,
+	private int encode48(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1282,7 +1254,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode49(final int[] in, final int inOffset,
+	private int encode49(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1296,7 +1268,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode50(final int[] in, final int inOffset,
+	private int encode50(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1311,7 +1283,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode51(final int[] in, final int inOffset,
+	private int encode51(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1327,7 +1299,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode52(final int[] in, final int inOffset,
+	private int encode52(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1341,7 +1313,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode53(final int[] in, final int inOffset,
+	private int encode53(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1356,7 +1328,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode54(final int[] in, final int inOffset,
+	private int encode54(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1372,7 +1344,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode55(final int[] in, final int inOffset,
+	private int encode55(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1389,7 +1361,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode56(final int[] in, final int inOffset,
+	private int encode56(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1404,7 +1376,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode57(final int[] in, final int inOffset,
+	private int encode57(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1420,7 +1392,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode58(final int[] in, final int inOffset,
+	private int encode58(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1437,7 +1409,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode59(final int[] in, final int inOffset,
+	private int encode59(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1455,7 +1427,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode60(final int[] in, final int inOffset,
+	private int encode60(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1471,7 +1443,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode61(final int[] in, final int inOffset,
+	private int encode61(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1488,7 +1460,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode62(final int[] in, final int inOffset,
+	private int encode62(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1506,7 +1478,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode63(final int[] in, final int inOffset,
+	private int encode63(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) in[inOffset + 0];
@@ -1525,7 +1497,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode64(final int[] in, final int inOffset,
+	private int encode64(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1536,7 +1508,7 @@ public class EncodeFunctions {
 		return 6;
 	}
 
-	private static final int encode65(final int[] in, final int inOffset,
+	private int encode65(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1548,7 +1520,7 @@ public class EncodeFunctions {
 		return 7;
 	}
 
-	private static final int encode66(final int[] in, final int inOffset,
+	private int encode66(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1561,7 +1533,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode67(final int[] in, final int inOffset,
+	private int encode67(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1575,7 +1547,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode68(final int[] in, final int inOffset,
+	private int encode68(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1587,7 +1559,7 @@ public class EncodeFunctions {
 		return 7;
 	}
 
-	private static final int encode69(final int[] in, final int inOffset,
+	private int encode69(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1600,7 +1572,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode70(final int[] in, final int inOffset,
+	private int encode70(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1614,7 +1586,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode71(final int[] in, final int inOffset,
+	private int encode71(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1629,7 +1601,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode72(final int[] in, final int inOffset,
+	private int encode72(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1642,7 +1614,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode73(final int[] in, final int inOffset,
+	private int encode73(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1656,7 +1628,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode74(final int[] in, final int inOffset,
+	private int encode74(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1671,7 +1643,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode75(final int[] in, final int inOffset,
+	private int encode75(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1687,7 +1659,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode76(final int[] in, final int inOffset,
+	private int encode76(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1701,7 +1673,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode77(final int[] in, final int inOffset,
+	private int encode77(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1716,7 +1688,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode78(final int[] in, final int inOffset,
+	private int encode78(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1732,7 +1704,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode79(final int[] in, final int inOffset,
+	private int encode79(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1749,7 +1721,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode80(final int[] in, final int inOffset,
+	private int encode80(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1761,7 +1733,7 @@ public class EncodeFunctions {
 		return 7;
 	}
 
-	private static final int encode81(final int[] in, final int inOffset,
+	private int encode81(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1774,7 +1746,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode82(final int[] in, final int inOffset,
+	private int encode82(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1788,7 +1760,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode83(final int[] in, final int inOffset,
+	private int encode83(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1803,7 +1775,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode84(final int[] in, final int inOffset,
+	private int encode84(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1816,7 +1788,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode85(final int[] in, final int inOffset,
+	private int encode85(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1830,7 +1802,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode86(final int[] in, final int inOffset,
+	private int encode86(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1845,7 +1817,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode87(final int[] in, final int inOffset,
+	private int encode87(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1861,7 +1833,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode88(final int[] in, final int inOffset,
+	private int encode88(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1875,7 +1847,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode89(final int[] in, final int inOffset,
+	private int encode89(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1890,7 +1862,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode90(final int[] in, final int inOffset,
+	private int encode90(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1906,7 +1878,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode91(final int[] in, final int inOffset,
+	private int encode91(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1923,7 +1895,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode92(final int[] in, final int inOffset,
+	private int encode92(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1938,7 +1910,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode93(final int[] in, final int inOffset,
+	private int encode93(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1954,7 +1926,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode94(final int[] in, final int inOffset,
+	private int encode94(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1971,7 +1943,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode95(final int[] in, final int inOffset,
+	private int encode95(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -1989,7 +1961,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode96(final int[] in, final int inOffset,
+	private int encode96(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2002,7 +1974,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode97(final int[] in, final int inOffset,
+	private int encode97(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2016,7 +1988,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode98(final int[] in, final int inOffset,
+	private int encode98(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2031,7 +2003,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode99(final int[] in, final int inOffset,
+	private int encode99(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2047,7 +2019,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode100(final int[] in, final int inOffset,
+	private int encode100(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2061,7 +2033,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode101(final int[] in, final int inOffset,
+	private int encode101(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2076,7 +2048,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode102(final int[] in, final int inOffset,
+	private int encode102(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2092,7 +2064,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode103(final int[] in, final int inOffset,
+	private int encode103(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2109,7 +2081,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode104(final int[] in, final int inOffset,
+	private int encode104(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2124,7 +2096,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode105(final int[] in, final int inOffset,
+	private int encode105(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2140,7 +2112,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode106(final int[] in, final int inOffset,
+	private int encode106(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2157,7 +2129,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode107(final int[] in, final int inOffset,
+	private int encode107(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2175,7 +2147,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode108(final int[] in, final int inOffset,
+	private int encode108(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2191,7 +2163,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode109(final int[] in, final int inOffset,
+	private int encode109(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2208,7 +2180,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode110(final int[] in, final int inOffset,
+	private int encode110(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2226,7 +2198,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode111(final int[] in, final int inOffset,
+	private int encode111(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2245,7 +2217,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode112(final int[] in, final int inOffset,
+	private int encode112(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2259,7 +2231,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode113(final int[] in, final int inOffset,
+	private int encode113(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2274,7 +2246,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode114(final int[] in, final int inOffset,
+	private int encode114(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2290,7 +2262,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode115(final int[] in, final int inOffset,
+	private int encode115(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2307,7 +2279,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode116(final int[] in, final int inOffset,
+	private int encode116(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2322,7 +2294,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode117(final int[] in, final int inOffset,
+	private int encode117(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2338,7 +2310,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode118(final int[] in, final int inOffset,
+	private int encode118(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2355,7 +2327,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode119(final int[] in, final int inOffset,
+	private int encode119(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2373,7 +2345,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode120(final int[] in, final int inOffset,
+	private int encode120(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2389,7 +2361,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode121(final int[] in, final int inOffset,
+	private int encode121(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2406,7 +2378,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode122(final int[] in, final int inOffset,
+	private int encode122(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2424,7 +2396,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode123(final int[] in, final int inOffset,
+	private int encode123(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2443,7 +2415,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode124(final int[] in, final int inOffset,
+	private int encode124(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2460,7 +2432,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode125(final int[] in, final int inOffset,
+	private int encode125(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2478,7 +2450,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode126(final int[] in, final int inOffset,
+	private int encode126(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2497,7 +2469,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode127(final int[] in, final int inOffset,
+	private int encode127(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 8);
@@ -2517,7 +2489,7 @@ public class EncodeFunctions {
 		return 15;
 	}
 
-	private static final int encode128(final int[] in, final int inOffset,
+	private int encode128(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2529,7 +2501,7 @@ public class EncodeFunctions {
 		return 7;
 	}
 
-	private static final int encode129(final int[] in, final int inOffset,
+	private int encode129(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2542,7 +2514,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode130(final int[] in, final int inOffset,
+	private int encode130(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2556,7 +2528,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode131(final int[] in, final int inOffset,
+	private int encode131(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2571,7 +2543,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode132(final int[] in, final int inOffset,
+	private int encode132(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2584,7 +2556,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode133(final int[] in, final int inOffset,
+	private int encode133(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2598,7 +2570,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode134(final int[] in, final int inOffset,
+	private int encode134(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2613,7 +2585,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode135(final int[] in, final int inOffset,
+	private int encode135(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2629,7 +2601,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode136(final int[] in, final int inOffset,
+	private int encode136(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2643,7 +2615,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode137(final int[] in, final int inOffset,
+	private int encode137(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2658,7 +2630,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode138(final int[] in, final int inOffset,
+	private int encode138(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2674,7 +2646,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode139(final int[] in, final int inOffset,
+	private int encode139(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2691,7 +2663,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode140(final int[] in, final int inOffset,
+	private int encode140(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2706,7 +2678,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode141(final int[] in, final int inOffset,
+	private int encode141(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2722,7 +2694,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode142(final int[] in, final int inOffset,
+	private int encode142(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2739,7 +2711,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode143(final int[] in, final int inOffset,
+	private int encode143(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2757,7 +2729,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode144(final int[] in, final int inOffset,
+	private int encode144(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2770,7 +2742,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode145(final int[] in, final int inOffset,
+	private int encode145(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2784,7 +2756,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode146(final int[] in, final int inOffset,
+	private int encode146(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2799,7 +2771,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode147(final int[] in, final int inOffset,
+	private int encode147(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2815,7 +2787,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode148(final int[] in, final int inOffset,
+	private int encode148(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2829,7 +2801,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode149(final int[] in, final int inOffset,
+	private int encode149(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2844,7 +2816,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode150(final int[] in, final int inOffset,
+	private int encode150(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2860,7 +2832,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode151(final int[] in, final int inOffset,
+	private int encode151(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2877,7 +2849,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode152(final int[] in, final int inOffset,
+	private int encode152(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2892,7 +2864,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode153(final int[] in, final int inOffset,
+	private int encode153(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2908,7 +2880,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode154(final int[] in, final int inOffset,
+	private int encode154(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2925,7 +2897,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode155(final int[] in, final int inOffset,
+	private int encode155(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2943,7 +2915,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode156(final int[] in, final int inOffset,
+	private int encode156(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2959,7 +2931,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode157(final int[] in, final int inOffset,
+	private int encode157(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2976,7 +2948,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode158(final int[] in, final int inOffset,
+	private int encode158(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -2994,7 +2966,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode159(final int[] in, final int inOffset,
+	private int encode159(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3013,7 +2985,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode160(final int[] in, final int inOffset,
+	private int encode160(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3027,7 +2999,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode161(final int[] in, final int inOffset,
+	private int encode161(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3042,7 +3014,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode162(final int[] in, final int inOffset,
+	private int encode162(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3058,7 +3030,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode163(final int[] in, final int inOffset,
+	private int encode163(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3075,7 +3047,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode164(final int[] in, final int inOffset,
+	private int encode164(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3090,7 +3062,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode165(final int[] in, final int inOffset,
+	private int encode165(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3106,7 +3078,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode166(final int[] in, final int inOffset,
+	private int encode166(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3123,7 +3095,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode167(final int[] in, final int inOffset,
+	private int encode167(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3141,7 +3113,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode168(final int[] in, final int inOffset,
+	private int encode168(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3157,7 +3129,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode169(final int[] in, final int inOffset,
+	private int encode169(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3174,7 +3146,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode170(final int[] in, final int inOffset,
+	private int encode170(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3192,7 +3164,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode171(final int[] in, final int inOffset,
+	private int encode171(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3211,7 +3183,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode172(final int[] in, final int inOffset,
+	private int encode172(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3228,7 +3200,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode173(final int[] in, final int inOffset,
+	private int encode173(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3246,7 +3218,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode174(final int[] in, final int inOffset,
+	private int encode174(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3265,7 +3237,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode175(final int[] in, final int inOffset,
+	private int encode175(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3285,7 +3257,7 @@ public class EncodeFunctions {
 		return 15;
 	}
 
-	private static final int encode176(final int[] in, final int inOffset,
+	private int encode176(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3300,7 +3272,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode177(final int[] in, final int inOffset,
+	private int encode177(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3316,7 +3288,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode178(final int[] in, final int inOffset,
+	private int encode178(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3333,7 +3305,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode179(final int[] in, final int inOffset,
+	private int encode179(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3351,7 +3323,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode180(final int[] in, final int inOffset,
+	private int encode180(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3367,7 +3339,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode181(final int[] in, final int inOffset,
+	private int encode181(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3384,7 +3356,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode182(final int[] in, final int inOffset,
+	private int encode182(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3402,7 +3374,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode183(final int[] in, final int inOffset,
+	private int encode183(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3421,7 +3393,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode184(final int[] in, final int inOffset,
+	private int encode184(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3438,7 +3410,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode185(final int[] in, final int inOffset,
+	private int encode185(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3456,7 +3428,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode186(final int[] in, final int inOffset,
+	private int encode186(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3475,7 +3447,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode187(final int[] in, final int inOffset,
+	private int encode187(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3495,7 +3467,7 @@ public class EncodeFunctions {
 		return 15;
 	}
 
-	private static final int encode188(final int[] in, final int inOffset,
+	private int encode188(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3513,7 +3485,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode189(final int[] in, final int inOffset,
+	private int encode189(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3532,7 +3504,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode190(final int[] in, final int inOffset,
+	private int encode190(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3552,7 +3524,7 @@ public class EncodeFunctions {
 		return 15;
 	}
 
-	private static final int encode191(final int[] in, final int inOffset,
+	private int encode191(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 16);
@@ -3573,7 +3545,7 @@ public class EncodeFunctions {
 		return 16;
 	}
 
-	private static final int encode192(final int[] in, final int inOffset,
+	private int encode192(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3586,7 +3558,7 @@ public class EncodeFunctions {
 		return 8;
 	}
 
-	private static final int encode193(final int[] in, final int inOffset,
+	private int encode193(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3600,7 +3572,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode194(final int[] in, final int inOffset,
+	private int encode194(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3615,7 +3587,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode195(final int[] in, final int inOffset,
+	private int encode195(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3631,7 +3603,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode196(final int[] in, final int inOffset,
+	private int encode196(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3645,7 +3617,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode197(final int[] in, final int inOffset,
+	private int encode197(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3660,7 +3632,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode198(final int[] in, final int inOffset,
+	private int encode198(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3676,7 +3648,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode199(final int[] in, final int inOffset,
+	private int encode199(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3693,7 +3665,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode200(final int[] in, final int inOffset,
+	private int encode200(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3708,7 +3680,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode201(final int[] in, final int inOffset,
+	private int encode201(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3724,7 +3696,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode202(final int[] in, final int inOffset,
+	private int encode202(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3741,7 +3713,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode203(final int[] in, final int inOffset,
+	private int encode203(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3759,7 +3731,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode204(final int[] in, final int inOffset,
+	private int encode204(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3775,7 +3747,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode205(final int[] in, final int inOffset,
+	private int encode205(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3792,7 +3764,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode206(final int[] in, final int inOffset,
+	private int encode206(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3810,7 +3782,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode207(final int[] in, final int inOffset,
+	private int encode207(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3829,7 +3801,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode208(final int[] in, final int inOffset,
+	private int encode208(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3843,7 +3815,7 @@ public class EncodeFunctions {
 		return 9;
 	}
 
-	private static final int encode209(final int[] in, final int inOffset,
+	private int encode209(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3858,7 +3830,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode210(final int[] in, final int inOffset,
+	private int encode210(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3874,7 +3846,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode211(final int[] in, final int inOffset,
+	private int encode211(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3891,7 +3863,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode212(final int[] in, final int inOffset,
+	private int encode212(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3906,7 +3878,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode213(final int[] in, final int inOffset,
+	private int encode213(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3922,7 +3894,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode214(final int[] in, final int inOffset,
+	private int encode214(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3939,7 +3911,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode215(final int[] in, final int inOffset,
+	private int encode215(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3957,7 +3929,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode216(final int[] in, final int inOffset,
+	private int encode216(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3973,7 +3945,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode217(final int[] in, final int inOffset,
+	private int encode217(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -3990,7 +3962,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode218(final int[] in, final int inOffset,
+	private int encode218(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4008,7 +3980,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode219(final int[] in, final int inOffset,
+	private int encode219(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4027,7 +3999,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode220(final int[] in, final int inOffset,
+	private int encode220(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4044,7 +4016,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode221(final int[] in, final int inOffset,
+	private int encode221(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4062,7 +4034,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode222(final int[] in, final int inOffset,
+	private int encode222(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4081,7 +4053,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode223(final int[] in, final int inOffset,
+	private int encode223(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4101,7 +4073,7 @@ public class EncodeFunctions {
 		return 15;
 	}
 
-	private static final int encode224(final int[] in, final int inOffset,
+	private int encode224(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4116,7 +4088,7 @@ public class EncodeFunctions {
 		return 10;
 	}
 
-	private static final int encode225(final int[] in, final int inOffset,
+	private int encode225(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4132,7 +4104,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode226(final int[] in, final int inOffset,
+	private int encode226(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4149,7 +4121,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode227(final int[] in, final int inOffset,
+	private int encode227(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4167,7 +4139,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode228(final int[] in, final int inOffset,
+	private int encode228(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4183,7 +4155,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode229(final int[] in, final int inOffset,
+	private int encode229(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4200,7 +4172,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode230(final int[] in, final int inOffset,
+	private int encode230(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4218,7 +4190,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode231(final int[] in, final int inOffset,
+	private int encode231(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4237,7 +4209,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode232(final int[] in, final int inOffset,
+	private int encode232(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4254,7 +4226,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode233(final int[] in, final int inOffset,
+	private int encode233(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4272,7 +4244,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode234(final int[] in, final int inOffset,
+	private int encode234(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4291,7 +4263,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode235(final int[] in, final int inOffset,
+	private int encode235(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4311,7 +4283,7 @@ public class EncodeFunctions {
 		return 15;
 	}
 
-	private static final int encode236(final int[] in, final int inOffset,
+	private int encode236(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4329,7 +4301,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode237(final int[] in, final int inOffset,
+	private int encode237(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4348,7 +4320,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode238(final int[] in, final int inOffset,
+	private int encode238(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4368,7 +4340,7 @@ public class EncodeFunctions {
 		return 15;
 	}
 
-	private static final int encode239(final int[] in, final int inOffset,
+	private int encode239(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4389,7 +4361,7 @@ public class EncodeFunctions {
 		return 16;
 	}
 
-	private static final int encode240(final int[] in, final int inOffset,
+	private int encode240(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4405,7 +4377,7 @@ public class EncodeFunctions {
 		return 11;
 	}
 
-	private static final int encode241(final int[] in, final int inOffset,
+	private int encode241(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4422,7 +4394,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode242(final int[] in, final int inOffset,
+	private int encode242(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4440,7 +4412,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode243(final int[] in, final int inOffset,
+	private int encode243(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4459,7 +4431,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode244(final int[] in, final int inOffset,
+	private int encode244(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4476,7 +4448,7 @@ public class EncodeFunctions {
 		return 12;
 	}
 
-	private static final int encode245(final int[] in, final int inOffset,
+	private int encode245(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4494,7 +4466,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode246(final int[] in, final int inOffset,
+	private int encode246(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4513,7 +4485,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode247(final int[] in, final int inOffset,
+	private int encode247(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4533,7 +4505,7 @@ public class EncodeFunctions {
 		return 15;
 	}
 
-	private static final int encode248(final int[] in, final int inOffset,
+	private int encode248(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4551,7 +4523,7 @@ public class EncodeFunctions {
 		return 13;
 	}
 
-	private static final int encode249(final int[] in, final int inOffset,
+	private int encode249(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4570,7 +4542,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode250(final int[] in, final int inOffset,
+	private int encode250(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4590,7 +4562,7 @@ public class EncodeFunctions {
 		return 15;
 	}
 
-	private static final int encode251(final int[] in, final int inOffset,
+	private int encode251(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4611,7 +4583,7 @@ public class EncodeFunctions {
 		return 16;
 	}
 
-	private static final int encode252(final int[] in, final int inOffset,
+	private int encode252(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4630,7 +4602,7 @@ public class EncodeFunctions {
 		return 14;
 	}
 
-	private static final int encode253(final int[] in, final int inOffset,
+	private int encode253(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4650,7 +4622,7 @@ public class EncodeFunctions {
 		return 15;
 	}
 
-	private static final int encode254(final int[] in, final int inOffset,
+	private int encode254(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4671,7 +4643,7 @@ public class EncodeFunctions {
 		return 16;
 	}
 
-	private static final int encode255(final int[] in, final int inOffset,
+	private int encode255(final int[] in, final int inOffset,
 			final int code, final byte[] out, final int outOffset) {
 		out[outOffset + 0] = (byte) code;
 		out[outOffset + 1] = (byte) (in[inOffset + 0] >>> 24);
@@ -4693,8 +4665,7 @@ public class EncodeFunctions {
 		return 17;
 	}
 
-	public static final void writeUncompressedInt(int i, byte[] out,
-			int outOffset) {
+	protected final void writeUncompressedInt(int i, byte[] out, int outOffset) {
 
 		out[outOffset++] = (byte) ((i >>> 24) & 0xFF);
 		out[outOffset++] = (byte) ((i >>> 16) & 0xFF);

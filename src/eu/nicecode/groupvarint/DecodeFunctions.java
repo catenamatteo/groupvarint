@@ -17,7 +17,10 @@ package eu.nicecode.groupvarint;
 
 public class DecodeFunctions {
 
-	public static final int decode(final byte[] in, final int inOffset,
+	/*
+	 * Unfortunately, this big switch seems to be a huge bottleneck! :-(
+	 */
+	protected final int decode(final byte[] in, final int inOffset,
 			final int code, final int[] out, final int outOffset) {
 
 		switch (code) {
@@ -538,7 +541,7 @@ public class DecodeFunctions {
 		}
 	}
 
-	private static final int decode0(final byte[] in, final int inOffset,
+	private int decode0(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -547,7 +550,7 @@ public class DecodeFunctions {
 		return 4;
 	}
 
-	private static final int decode1(final byte[] in, final int inOffset,
+	private int decode1(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -557,7 +560,7 @@ public class DecodeFunctions {
 		return 5;
 	}
 
-	private static final int decode2(final byte[] in, final int inOffset,
+	private int decode2(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -567,7 +570,7 @@ public class DecodeFunctions {
 		return 6;
 	}
 
-	private static final int decode3(final byte[] in, final int inOffset,
+	private int decode3(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -578,7 +581,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode4(final byte[] in, final int inOffset,
+	private int decode4(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -588,7 +591,7 @@ public class DecodeFunctions {
 		return 5;
 	}
 
-	private static final int decode5(final byte[] in, final int inOffset,
+	private int decode5(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -599,7 +602,7 @@ public class DecodeFunctions {
 		return 6;
 	}
 
-	private static final int decode6(final byte[] in, final int inOffset,
+	private int decode6(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -610,7 +613,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode7(final byte[] in, final int inOffset,
+	private int decode7(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -622,7 +625,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode8(final byte[] in, final int inOffset,
+	private int decode8(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -632,7 +635,7 @@ public class DecodeFunctions {
 		return 6;
 	}
 
-	private static final int decode9(final byte[] in, final int inOffset,
+	private int decode9(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -643,7 +646,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode10(final byte[] in, final int inOffset,
+	private int decode10(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -654,7 +657,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode11(final byte[] in, final int inOffset,
+	private int decode11(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -666,7 +669,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode12(final byte[] in, final int inOffset,
+	private int decode12(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -677,7 +680,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode13(final byte[] in, final int inOffset,
+	private int decode13(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -689,7 +692,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode14(final byte[] in, final int inOffset,
+	private int decode14(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -701,7 +704,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode15(final byte[] in, final int inOffset,
+	private int decode15(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = 0xFF & in[inOffset + 1];
@@ -714,7 +717,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode16(final byte[] in, final int inOffset,
+	private int decode16(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -724,7 +727,7 @@ public class DecodeFunctions {
 		return 5;
 	}
 
-	private static final int decode17(final byte[] in, final int inOffset,
+	private int decode17(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -735,7 +738,7 @@ public class DecodeFunctions {
 		return 6;
 	}
 
-	private static final int decode18(final byte[] in, final int inOffset,
+	private int decode18(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -746,7 +749,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode19(final byte[] in, final int inOffset,
+	private int decode19(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -758,7 +761,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode20(final byte[] in, final int inOffset,
+	private int decode20(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -769,7 +772,7 @@ public class DecodeFunctions {
 		return 6;
 	}
 
-	private static final int decode21(final byte[] in, final int inOffset,
+	private int decode21(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -781,7 +784,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode22(final byte[] in, final int inOffset,
+	private int decode22(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -793,7 +796,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode23(final byte[] in, final int inOffset,
+	private int decode23(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -806,7 +809,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode24(final byte[] in, final int inOffset,
+	private int decode24(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -817,7 +820,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode25(final byte[] in, final int inOffset,
+	private int decode25(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -829,7 +832,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode26(final byte[] in, final int inOffset,
+	private int decode26(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -841,7 +844,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode27(final byte[] in, final int inOffset,
+	private int decode27(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -854,7 +857,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode28(final byte[] in, final int inOffset,
+	private int decode28(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -866,7 +869,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode29(final byte[] in, final int inOffset,
+	private int decode29(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -879,7 +882,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode30(final byte[] in, final int inOffset,
+	private int decode30(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -892,7 +895,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode31(final byte[] in, final int inOffset,
+	private int decode31(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 8)
@@ -906,7 +909,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode32(final byte[] in, final int inOffset,
+	private int decode32(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -916,7 +919,7 @@ public class DecodeFunctions {
 		return 6;
 	}
 
-	private static final int decode33(final byte[] in, final int inOffset,
+	private int decode33(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -927,7 +930,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode34(final byte[] in, final int inOffset,
+	private int decode34(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -938,7 +941,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode35(final byte[] in, final int inOffset,
+	private int decode35(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -950,7 +953,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode36(final byte[] in, final int inOffset,
+	private int decode36(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -961,7 +964,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode37(final byte[] in, final int inOffset,
+	private int decode37(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -973,7 +976,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode38(final byte[] in, final int inOffset,
+	private int decode38(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -985,7 +988,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode39(final byte[] in, final int inOffset,
+	private int decode39(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -998,7 +1001,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode40(final byte[] in, final int inOffset,
+	private int decode40(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -1009,7 +1012,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode41(final byte[] in, final int inOffset,
+	private int decode41(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -1021,7 +1024,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode42(final byte[] in, final int inOffset,
+	private int decode42(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -1033,7 +1036,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode43(final byte[] in, final int inOffset,
+	private int decode43(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -1046,7 +1049,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode44(final byte[] in, final int inOffset,
+	private int decode44(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -1058,7 +1061,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode45(final byte[] in, final int inOffset,
+	private int decode45(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -1071,7 +1074,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode46(final byte[] in, final int inOffset,
+	private int decode46(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -1084,7 +1087,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode47(final byte[] in, final int inOffset,
+	private int decode47(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 16)
@@ -1099,7 +1102,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode48(final byte[] in, final int inOffset,
+	private int decode48(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1110,7 +1113,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode49(final byte[] in, final int inOffset,
+	private int decode49(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1122,7 +1125,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode50(final byte[] in, final int inOffset,
+	private int decode50(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1134,7 +1137,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode51(final byte[] in, final int inOffset,
+	private int decode51(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1147,7 +1150,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode52(final byte[] in, final int inOffset,
+	private int decode52(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1159,7 +1162,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode53(final byte[] in, final int inOffset,
+	private int decode53(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1172,7 +1175,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode54(final byte[] in, final int inOffset,
+	private int decode54(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1185,7 +1188,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode55(final byte[] in, final int inOffset,
+	private int decode55(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1199,7 +1202,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode56(final byte[] in, final int inOffset,
+	private int decode56(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1211,7 +1214,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode57(final byte[] in, final int inOffset,
+	private int decode57(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1224,7 +1227,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode58(final byte[] in, final int inOffset,
+	private int decode58(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1237,7 +1240,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode59(final byte[] in, final int inOffset,
+	private int decode59(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1252,7 +1255,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode60(final byte[] in, final int inOffset,
+	private int decode60(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1265,7 +1268,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode61(final byte[] in, final int inOffset,
+	private int decode61(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1279,7 +1282,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode62(final byte[] in, final int inOffset,
+	private int decode62(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1294,7 +1297,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode63(final byte[] in, final int inOffset,
+	private int decode63(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = 0xFF & in[inOffset + 0];
 		out[outOffset + 1] = ((0xFF & in[inOffset + 1]) << 24)
@@ -1310,7 +1313,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode64(final byte[] in, final int inOffset,
+	private int decode64(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1320,7 +1323,7 @@ public class DecodeFunctions {
 		return 5;
 	}
 
-	private static final int decode65(final byte[] in, final int inOffset,
+	private int decode65(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1331,7 +1334,7 @@ public class DecodeFunctions {
 		return 6;
 	}
 
-	private static final int decode66(final byte[] in, final int inOffset,
+	private int decode66(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1342,7 +1345,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode67(final byte[] in, final int inOffset,
+	private int decode67(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1354,7 +1357,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode68(final byte[] in, final int inOffset,
+	private int decode68(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1365,7 +1368,7 @@ public class DecodeFunctions {
 		return 6;
 	}
 
-	private static final int decode69(final byte[] in, final int inOffset,
+	private int decode69(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1377,7 +1380,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode70(final byte[] in, final int inOffset,
+	private int decode70(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1389,7 +1392,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode71(final byte[] in, final int inOffset,
+	private int decode71(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1402,7 +1405,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode72(final byte[] in, final int inOffset,
+	private int decode72(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1413,7 +1416,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode73(final byte[] in, final int inOffset,
+	private int decode73(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1425,7 +1428,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode74(final byte[] in, final int inOffset,
+	private int decode74(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1437,7 +1440,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode75(final byte[] in, final int inOffset,
+	private int decode75(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1450,7 +1453,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode76(final byte[] in, final int inOffset,
+	private int decode76(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1462,7 +1465,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode77(final byte[] in, final int inOffset,
+	private int decode77(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1475,7 +1478,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode78(final byte[] in, final int inOffset,
+	private int decode78(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1488,7 +1491,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode79(final byte[] in, final int inOffset,
+	private int decode79(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1502,7 +1505,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode80(final byte[] in, final int inOffset,
+	private int decode80(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1513,7 +1516,7 @@ public class DecodeFunctions {
 		return 6;
 	}
 
-	private static final int decode81(final byte[] in, final int inOffset,
+	private int decode81(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1525,7 +1528,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode82(final byte[] in, final int inOffset,
+	private int decode82(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1537,7 +1540,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode83(final byte[] in, final int inOffset,
+	private int decode83(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1550,7 +1553,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode84(final byte[] in, final int inOffset,
+	private int decode84(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1562,7 +1565,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode85(final byte[] in, final int inOffset,
+	private int decode85(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1575,7 +1578,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode86(final byte[] in, final int inOffset,
+	private int decode86(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1588,7 +1591,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode87(final byte[] in, final int inOffset,
+	private int decode87(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1602,7 +1605,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode88(final byte[] in, final int inOffset,
+	private int decode88(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1614,7 +1617,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode89(final byte[] in, final int inOffset,
+	private int decode89(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1627,7 +1630,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode90(final byte[] in, final int inOffset,
+	private int decode90(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1640,7 +1643,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode91(final byte[] in, final int inOffset,
+	private int decode91(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1654,7 +1657,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode92(final byte[] in, final int inOffset,
+	private int decode92(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1667,7 +1670,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode93(final byte[] in, final int inOffset,
+	private int decode93(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1681,7 +1684,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode94(final byte[] in, final int inOffset,
+	private int decode94(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1695,7 +1698,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode95(final byte[] in, final int inOffset,
+	private int decode95(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1711,7 +1714,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode96(final byte[] in, final int inOffset,
+	private int decode96(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1722,7 +1725,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode97(final byte[] in, final int inOffset,
+	private int decode97(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1734,7 +1737,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode98(final byte[] in, final int inOffset,
+	private int decode98(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1746,7 +1749,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode99(final byte[] in, final int inOffset,
+	private int decode99(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1759,7 +1762,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode100(final byte[] in, final int inOffset,
+	private int decode100(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1771,7 +1774,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode101(final byte[] in, final int inOffset,
+	private int decode101(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1784,7 +1787,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode102(final byte[] in, final int inOffset,
+	private int decode102(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1797,7 +1800,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode103(final byte[] in, final int inOffset,
+	private int decode103(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1811,7 +1814,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode104(final byte[] in, final int inOffset,
+	private int decode104(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1823,7 +1826,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode105(final byte[] in, final int inOffset,
+	private int decode105(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1836,7 +1839,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode106(final byte[] in, final int inOffset,
+	private int decode106(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1849,7 +1852,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode107(final byte[] in, final int inOffset,
+	private int decode107(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1864,7 +1867,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode108(final byte[] in, final int inOffset,
+	private int decode108(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1877,7 +1880,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode109(final byte[] in, final int inOffset,
+	private int decode109(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1891,7 +1894,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode110(final byte[] in, final int inOffset,
+	private int decode110(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1906,7 +1909,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode111(final byte[] in, final int inOffset,
+	private int decode111(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1922,7 +1925,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode112(final byte[] in, final int inOffset,
+	private int decode112(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1934,7 +1937,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode113(final byte[] in, final int inOffset,
+	private int decode113(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1947,7 +1950,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode114(final byte[] in, final int inOffset,
+	private int decode114(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1960,7 +1963,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode115(final byte[] in, final int inOffset,
+	private int decode115(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1974,7 +1977,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode116(final byte[] in, final int inOffset,
+	private int decode116(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -1987,7 +1990,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode117(final byte[] in, final int inOffset,
+	private int decode117(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2001,7 +2004,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode118(final byte[] in, final int inOffset,
+	private int decode118(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2015,7 +2018,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode119(final byte[] in, final int inOffset,
+	private int decode119(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2031,7 +2034,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode120(final byte[] in, final int inOffset,
+	private int decode120(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2044,7 +2047,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode121(final byte[] in, final int inOffset,
+	private int decode121(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2058,7 +2061,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode122(final byte[] in, final int inOffset,
+	private int decode122(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2073,7 +2076,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode123(final byte[] in, final int inOffset,
+	private int decode123(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2089,7 +2092,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode124(final byte[] in, final int inOffset,
+	private int decode124(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2103,7 +2106,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode125(final byte[] in, final int inOffset,
+	private int decode125(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2118,7 +2121,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode126(final byte[] in, final int inOffset,
+	private int decode126(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2134,7 +2137,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode127(final byte[] in, final int inOffset,
+	private int decode127(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 8)
 				| (0xFF & in[inOffset + 1]);
@@ -2151,7 +2154,7 @@ public class DecodeFunctions {
 		return 14;
 	}
 
-	private static final int decode128(final byte[] in, final int inOffset,
+	private int decode128(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2161,7 +2164,7 @@ public class DecodeFunctions {
 		return 6;
 	}
 
-	private static final int decode129(final byte[] in, final int inOffset,
+	private int decode129(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2172,7 +2175,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode130(final byte[] in, final int inOffset,
+	private int decode130(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2183,7 +2186,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode131(final byte[] in, final int inOffset,
+	private int decode131(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2195,7 +2198,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode132(final byte[] in, final int inOffset,
+	private int decode132(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2206,7 +2209,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode133(final byte[] in, final int inOffset,
+	private int decode133(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2218,7 +2221,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode134(final byte[] in, final int inOffset,
+	private int decode134(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2230,7 +2233,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode135(final byte[] in, final int inOffset,
+	private int decode135(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2243,7 +2246,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode136(final byte[] in, final int inOffset,
+	private int decode136(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2254,7 +2257,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode137(final byte[] in, final int inOffset,
+	private int decode137(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2266,7 +2269,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode138(final byte[] in, final int inOffset,
+	private int decode138(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2278,7 +2281,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode139(final byte[] in, final int inOffset,
+	private int decode139(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2291,7 +2294,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode140(final byte[] in, final int inOffset,
+	private int decode140(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2303,7 +2306,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode141(final byte[] in, final int inOffset,
+	private int decode141(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2316,7 +2319,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode142(final byte[] in, final int inOffset,
+	private int decode142(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2329,7 +2332,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode143(final byte[] in, final int inOffset,
+	private int decode143(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2344,7 +2347,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode144(final byte[] in, final int inOffset,
+	private int decode144(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2355,7 +2358,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode145(final byte[] in, final int inOffset,
+	private int decode145(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2367,7 +2370,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode146(final byte[] in, final int inOffset,
+	private int decode146(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2379,7 +2382,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode147(final byte[] in, final int inOffset,
+	private int decode147(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2392,7 +2395,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode148(final byte[] in, final int inOffset,
+	private int decode148(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2404,7 +2407,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode149(final byte[] in, final int inOffset,
+	private int decode149(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2417,7 +2420,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode150(final byte[] in, final int inOffset,
+	private int decode150(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2430,7 +2433,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode151(final byte[] in, final int inOffset,
+	private int decode151(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2444,7 +2447,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode152(final byte[] in, final int inOffset,
+	private int decode152(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2456,7 +2459,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode153(final byte[] in, final int inOffset,
+	private int decode153(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2469,7 +2472,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode154(final byte[] in, final int inOffset,
+	private int decode154(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2482,7 +2485,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode155(final byte[] in, final int inOffset,
+	private int decode155(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2497,7 +2500,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode156(final byte[] in, final int inOffset,
+	private int decode156(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2510,7 +2513,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode157(final byte[] in, final int inOffset,
+	private int decode157(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2524,7 +2527,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode158(final byte[] in, final int inOffset,
+	private int decode158(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2539,7 +2542,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode159(final byte[] in, final int inOffset,
+	private int decode159(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2555,7 +2558,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode160(final byte[] in, final int inOffset,
+	private int decode160(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2566,7 +2569,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode161(final byte[] in, final int inOffset,
+	private int decode161(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2578,7 +2581,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode162(final byte[] in, final int inOffset,
+	private int decode162(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2590,7 +2593,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode163(final byte[] in, final int inOffset,
+	private int decode163(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2603,7 +2606,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode164(final byte[] in, final int inOffset,
+	private int decode164(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2615,7 +2618,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode165(final byte[] in, final int inOffset,
+	private int decode165(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2628,7 +2631,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode166(final byte[] in, final int inOffset,
+	private int decode166(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2641,7 +2644,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode167(final byte[] in, final int inOffset,
+	private int decode167(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2656,7 +2659,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode168(final byte[] in, final int inOffset,
+	private int decode168(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2668,7 +2671,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode169(final byte[] in, final int inOffset,
+	private int decode169(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2681,7 +2684,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode170(final byte[] in, final int inOffset,
+	private int decode170(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2695,7 +2698,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode171(final byte[] in, final int inOffset,
+	private int decode171(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2710,7 +2713,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode172(final byte[] in, final int inOffset,
+	private int decode172(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2723,7 +2726,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode173(final byte[] in, final int inOffset,
+	private int decode173(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2737,7 +2740,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode174(final byte[] in, final int inOffset,
+	private int decode174(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2752,7 +2755,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode175(final byte[] in, final int inOffset,
+	private int decode175(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2768,7 +2771,7 @@ public class DecodeFunctions {
 		return 14;
 	}
 
-	private static final int decode176(final byte[] in, final int inOffset,
+	private int decode176(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2780,7 +2783,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode177(final byte[] in, final int inOffset,
+	private int decode177(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2793,7 +2796,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode178(final byte[] in, final int inOffset,
+	private int decode178(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2806,7 +2809,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode179(final byte[] in, final int inOffset,
+	private int decode179(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2821,7 +2824,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode180(final byte[] in, final int inOffset,
+	private int decode180(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2834,7 +2837,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode181(final byte[] in, final int inOffset,
+	private int decode181(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2848,7 +2851,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode182(final byte[] in, final int inOffset,
+	private int decode182(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2863,7 +2866,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode183(final byte[] in, final int inOffset,
+	private int decode183(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2879,7 +2882,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode184(final byte[] in, final int inOffset,
+	private int decode184(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2892,7 +2895,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode185(final byte[] in, final int inOffset,
+	private int decode185(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2906,7 +2909,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode186(final byte[] in, final int inOffset,
+	private int decode186(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2921,7 +2924,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode187(final byte[] in, final int inOffset,
+	private int decode187(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2937,7 +2940,7 @@ public class DecodeFunctions {
 		return 14;
 	}
 
-	private static final int decode188(final byte[] in, final int inOffset,
+	private int decode188(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2951,7 +2954,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode189(final byte[] in, final int inOffset,
+	private int decode189(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2966,7 +2969,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode190(final byte[] in, final int inOffset,
+	private int decode190(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2982,7 +2985,7 @@ public class DecodeFunctions {
 		return 14;
 	}
 
-	private static final int decode191(final byte[] in, final int inOffset,
+	private int decode191(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 16)
 				| ((0xFF & in[inOffset + 1]) << 8) | (0xFF & in[inOffset + 2]);
@@ -2999,7 +3002,7 @@ public class DecodeFunctions {
 		return 15;
 	}
 
-	private static final int decode192(final byte[] in, final int inOffset,
+	private int decode192(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3010,7 +3013,7 @@ public class DecodeFunctions {
 		return 7;
 	}
 
-	private static final int decode193(final byte[] in, final int inOffset,
+	private int decode193(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3022,7 +3025,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode194(final byte[] in, final int inOffset,
+	private int decode194(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3034,7 +3037,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode195(final byte[] in, final int inOffset,
+	private int decode195(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3047,7 +3050,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode196(final byte[] in, final int inOffset,
+	private int decode196(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3059,7 +3062,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode197(final byte[] in, final int inOffset,
+	private int decode197(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3072,7 +3075,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode198(final byte[] in, final int inOffset,
+	private int decode198(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3085,7 +3088,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode199(final byte[] in, final int inOffset,
+	private int decode199(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3099,7 +3102,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode200(final byte[] in, final int inOffset,
+	private int decode200(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3111,7 +3114,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode201(final byte[] in, final int inOffset,
+	private int decode201(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3124,7 +3127,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode202(final byte[] in, final int inOffset,
+	private int decode202(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3137,7 +3140,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode203(final byte[] in, final int inOffset,
+	private int decode203(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3152,7 +3155,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode204(final byte[] in, final int inOffset,
+	private int decode204(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3165,7 +3168,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode205(final byte[] in, final int inOffset,
+	private int decode205(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3179,7 +3182,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode206(final byte[] in, final int inOffset,
+	private int decode206(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3194,7 +3197,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode207(final byte[] in, final int inOffset,
+	private int decode207(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3210,7 +3213,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode208(final byte[] in, final int inOffset,
+	private int decode208(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3222,7 +3225,7 @@ public class DecodeFunctions {
 		return 8;
 	}
 
-	private static final int decode209(final byte[] in, final int inOffset,
+	private int decode209(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3235,7 +3238,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode210(final byte[] in, final int inOffset,
+	private int decode210(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3248,7 +3251,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode211(final byte[] in, final int inOffset,
+	private int decode211(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3262,7 +3265,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode212(final byte[] in, final int inOffset,
+	private int decode212(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3275,7 +3278,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode213(final byte[] in, final int inOffset,
+	private int decode213(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3289,7 +3292,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode214(final byte[] in, final int inOffset,
+	private int decode214(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3303,7 +3306,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode215(final byte[] in, final int inOffset,
+	private int decode215(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3319,7 +3322,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode216(final byte[] in, final int inOffset,
+	private int decode216(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3332,7 +3335,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode217(final byte[] in, final int inOffset,
+	private int decode217(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3346,7 +3349,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode218(final byte[] in, final int inOffset,
+	private int decode218(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3361,7 +3364,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode219(final byte[] in, final int inOffset,
+	private int decode219(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3377,7 +3380,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode220(final byte[] in, final int inOffset,
+	private int decode220(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3391,7 +3394,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode221(final byte[] in, final int inOffset,
+	private int decode221(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3406,7 +3409,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode222(final byte[] in, final int inOffset,
+	private int decode222(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3422,7 +3425,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode223(final byte[] in, final int inOffset,
+	private int decode223(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3439,7 +3442,7 @@ public class DecodeFunctions {
 		return 14;
 	}
 
-	private static final int decode224(final byte[] in, final int inOffset,
+	private int decode224(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3451,7 +3454,7 @@ public class DecodeFunctions {
 		return 9;
 	}
 
-	private static final int decode225(final byte[] in, final int inOffset,
+	private int decode225(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3464,7 +3467,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode226(final byte[] in, final int inOffset,
+	private int decode226(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3477,7 +3480,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode227(final byte[] in, final int inOffset,
+	private int decode227(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3492,7 +3495,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode228(final byte[] in, final int inOffset,
+	private int decode228(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3505,7 +3508,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode229(final byte[] in, final int inOffset,
+	private int decode229(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3519,7 +3522,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode230(final byte[] in, final int inOffset,
+	private int decode230(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3534,7 +3537,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode231(final byte[] in, final int inOffset,
+	private int decode231(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3550,7 +3553,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode232(final byte[] in, final int inOffset,
+	private int decode232(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3563,7 +3566,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode233(final byte[] in, final int inOffset,
+	private int decode233(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3577,7 +3580,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode234(final byte[] in, final int inOffset,
+	private int decode234(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3592,7 +3595,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode235(final byte[] in, final int inOffset,
+	private int decode235(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3608,7 +3611,7 @@ public class DecodeFunctions {
 		return 14;
 	}
 
-	private static final int decode236(final byte[] in, final int inOffset,
+	private int decode236(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3622,7 +3625,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode237(final byte[] in, final int inOffset,
+	private int decode237(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3637,7 +3640,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode238(final byte[] in, final int inOffset,
+	private int decode238(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3653,7 +3656,7 @@ public class DecodeFunctions {
 		return 14;
 	}
 
-	private static final int decode239(final byte[] in, final int inOffset,
+	private int decode239(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3670,7 +3673,7 @@ public class DecodeFunctions {
 		return 15;
 	}
 
-	private static final int decode240(final byte[] in, final int inOffset,
+	private int decode240(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3683,7 +3686,7 @@ public class DecodeFunctions {
 		return 10;
 	}
 
-	private static final int decode241(final byte[] in, final int inOffset,
+	private int decode241(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3697,7 +3700,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode242(final byte[] in, final int inOffset,
+	private int decode242(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3712,7 +3715,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode243(final byte[] in, final int inOffset,
+	private int decode243(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3728,7 +3731,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode244(final byte[] in, final int inOffset,
+	private int decode244(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3742,7 +3745,7 @@ public class DecodeFunctions {
 		return 11;
 	}
 
-	private static final int decode245(final byte[] in, final int inOffset,
+	private int decode245(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3757,7 +3760,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode246(final byte[] in, final int inOffset,
+	private int decode246(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3773,7 +3776,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode247(final byte[] in, final int inOffset,
+	private int decode247(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3790,7 +3793,7 @@ public class DecodeFunctions {
 		return 14;
 	}
 
-	private static final int decode248(final byte[] in, final int inOffset,
+	private int decode248(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3804,7 +3807,7 @@ public class DecodeFunctions {
 		return 12;
 	}
 
-	private static final int decode249(final byte[] in, final int inOffset,
+	private int decode249(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3819,7 +3822,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode250(final byte[] in, final int inOffset,
+	private int decode250(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3835,7 +3838,7 @@ public class DecodeFunctions {
 		return 14;
 	}
 
-	private static final int decode251(final byte[] in, final int inOffset,
+	private int decode251(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3852,7 +3855,7 @@ public class DecodeFunctions {
 		return 15;
 	}
 
-	private static final int decode252(final byte[] in, final int inOffset,
+	private int decode252(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3868,7 +3871,7 @@ public class DecodeFunctions {
 		return 13;
 	}
 
-	private static final int decode253(final byte[] in, final int inOffset,
+	private int decode253(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3885,7 +3888,7 @@ public class DecodeFunctions {
 		return 14;
 	}
 
-	private static final int decode254(final byte[] in, final int inOffset,
+	private int decode254(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3903,7 +3906,7 @@ public class DecodeFunctions {
 		return 15;
 	}
 
-	private static final int decode255(final byte[] in, final int inOffset,
+	private int decode255(final byte[] in, final int inOffset,
 			final int[] out, final int outOffset) {
 		out[outOffset + 0] = ((0xFF & in[inOffset + 0]) << 24)
 				| ((0xFF & in[inOffset + 1]) << 16)
@@ -3922,13 +3925,13 @@ public class DecodeFunctions {
 		return 16;
 	}
 
-	public static final int readUncompressedInt(byte[] in, int inOffset) {
-		
+	protected final int readUncompressedInt(byte[] in, int inOffset) {
+
 		int i = (in[inOffset++] & 0xFF);
 		i = (i << 8) | (in[inOffset++] & 0xFF);
 		i = (i << 8) | (in[inOffset++] & 0xFF);
 		i = (i << 8) | (in[inOffset] & 0xFF);
-		
+
 		return i;
 	}
 

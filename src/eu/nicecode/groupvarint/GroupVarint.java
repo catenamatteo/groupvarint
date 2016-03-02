@@ -39,9 +39,11 @@ public class GroupVarint {
 	
 	private EncodeFunction[] encodeFns;
 	private DecodeFunction[] decodeFns;
+	private Decoder decoder;
 	
 	public GroupVarint() {
 
+		decoder = new Decoder();
 		
 		encodeFns = new EncodeFunction[4];
 		decodeFns = new DecodeFunction[4];
@@ -135,10 +137,10 @@ public class GroupVarint {
 	
 	private void writeUncompressedInt(int in, byte[] out, int outOffset) {
 
-		out[outOffset++] = (byte) ((in >>> 24) & 0xFF);
-		out[outOffset++] = (byte) ((in >>> 16) & 0xFF);
-		out[outOffset++] = (byte) ((in >>> 8) & 0xFF);
-		out[outOffset] = (byte) (in & 0xFF);
+		out[outOffset++] = (byte) ((in >>> 24));
+		out[outOffset++] = (byte) ((in >>> 16));
+		out[outOffset++] = (byte) ((in >>> 8));
+		out[outOffset] = (byte) (in);
 	}
 
 	private int decode(byte[] in, int inOffset, int[] out, int outOffset) {
@@ -262,7 +264,7 @@ public class GroupVarint {
 		final int cond = length / 4 * 4;
 		while (outOffset < cond) {
 
-			inOffset += decode(in, inOffset, out, outOffset);
+			inOffset += decoder.decode(in, inOffset, out, outOffset);
 			outOffset += 4;
 		}
 

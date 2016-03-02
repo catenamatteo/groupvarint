@@ -14,10 +14,10 @@ public class GV implements ByteIntegerCODEC {
 	
 	private void writeUncompressedInt(int in, byte[] out, int outOffset) {
 
-		out[outOffset++] = (byte) ((in >>> 24) & 0xFF);
-		out[outOffset++] = (byte) ((in >>> 16) & 0xFF);
-		out[outOffset++] = (byte) ((in >>> 8) & 0xFF);
-		out[outOffset] = (byte) (in & 0xFF);
+		out[outOffset++] = (byte) ((in >>> 24));
+		out[outOffset++] = (byte) ((in >>> 16));
+		out[outOffset++] = (byte) ((in >>> 8));
+		out[outOffset] = (byte) (in);
 	}
 	
 	private int readUncompressedInt(byte[] in, int inOffset) {

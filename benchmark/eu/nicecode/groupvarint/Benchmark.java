@@ -643,13 +643,13 @@ public class Benchmark {
 //                        System.out.println();
 //
 //
-//                        testCodec(csvLog, sparsity, new Simple9(), data,
-//                                repeat, false);
-//                        testCodec(csvLog, sparsity, new Simple9(), data,
-//                                repeat, false);
-//                        testCodec(csvLog, sparsity, new Simple9(), data,
-//                                repeat, true);
-//                        System.out.println();
+                        testCodec(csvLog, sparsity, new Simple9(), data,
+                                repeat, false);
+                        testCodec(csvLog, sparsity, new Simple9(), data,
+                                repeat, false);
+                        testCodec(csvLog, sparsity, new Simple9(), data,
+                                repeat, true);
+                        System.out.println();
 //
 //                        {
 //                                IntegerCODEC c = new Composition(

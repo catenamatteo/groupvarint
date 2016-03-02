@@ -21,20 +21,20 @@ public class Decoder {
 
 	private int decode2(byte[] in, int inOffset) {
 
-		return ((0xFF & in[inOffset]) << 8) | (0xFF & in[inOffset + 1]);
+		return ((0xFF & in[inOffset++]) << 8) | (0xFF & in[inOffset]);
 	}
 
 	private int decode3(byte[] in, int inOffset) {
 
-		return ((0xFF & in[inOffset]) << 16) | ((0xFF & in[inOffset + 1]) << 8)
-				| (0xFF & in[inOffset + 2]);
+		return ((0xFF & in[inOffset++]) << 16) | ((0xFF & in[inOffset++]) << 8)
+				| (0xFF & in[inOffset]);
 	}
 
 	private int decode4(byte[] in, int inOffset) {
 
-		return ((0xFF & in[inOffset]) << 24)
-				| ((0xFF & in[inOffset + 1]) << 16)
-				| ((0xFF & in[inOffset + 2]) << 8) | (0xFF & in[inOffset + 3]);
+		return ((0xFF & in[inOffset++]) << 24)
+				| ((0xFF & in[inOffset++]) << 16)
+				| ((0xFF & in[inOffset++]) << 8) | (0xFF & in[inOffset]);
 	}
 	
 	private DecodeFunction decodeFnt[];

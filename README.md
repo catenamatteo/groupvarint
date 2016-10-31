@@ -32,4 +32,5 @@ zigZagGroupVarint.decompress(b, 0, c, 0, a.length);
 
 ### References
 * Jeff Dean (Google), "Challenges in Building Large-Scale Information Retrieval Systems", WSDM'09
+* [http://www.ir.uwaterloo.ca/book/addenda-06-index-compression.html](http://www.ir.uwaterloo.ca/book/addenda-06-index-compression.html)
 

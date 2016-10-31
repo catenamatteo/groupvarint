@@ -21,6 +21,13 @@ import java.nio.ByteOrder;
 import sun.misc.Unsafe;
 
 @SuppressWarnings("restriction")
+/**
+ * A Java implementation of groupvarint, described by J.Dean in
+ * "Challenges in Building Large-Scale Information Retrieval Systems" at WSDM'09
+ * 
+ * @author Matteo Catena
+ * 
+ */
 public class GroupVarint {
 
 	private final static byte[] NUM_BYTES = { 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3,

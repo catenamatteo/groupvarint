@@ -15,6 +15,7 @@
  */
 package eu.nicecode.groupvarint;
 
+
 /**
  * A wrapper for GroupVarint which uses zig-zag encoding. Useful when dealing
  * with negatives number, to improve compression ratio.
@@ -57,14 +58,14 @@ public class ZigZagGroupVarint {
 	 * @param inOffset
 	 * @param out
 	 * @param outOffset
-	 * @param length
+	 * @param num
 	 * @return new offset in in[]
 	 */
 	public final int uncompress(byte[] in, int inOffset, int[] out,
-			int outOffset, int length) {
+			int outOffset, int num) {
 
-		int rtn = groupVarint.uncompress(in, inOffset, out, outOffset, length);
-		for (int i = 0; i < length; i++)
+		int rtn = groupVarint.uncompress(in, inOffset, out, outOffset, num);
+		for (int i = 0; i < num; i++)
 			out[outOffset + i] = zag(out[outOffset + i]);
 		return rtn;
 	}

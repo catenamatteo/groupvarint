@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.nicecode</groupId>
   <artifactId>groupvarint</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
@@ -11,8 +11,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source/>
-          <target/>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
     </plugins>
@@ -26,7 +26,7 @@
   	<dependency>
   		<groupId>me.lemire.integercompression</groupId>
   		<artifactId>JavaFastPFOR</artifactId>
-  		<version>0.1.6</version>
+  		<version>0.1.10</version>
   	</dependency>
   </dependencies>
 </project>

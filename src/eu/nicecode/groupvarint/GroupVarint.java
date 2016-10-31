@@ -186,7 +186,7 @@ public class GroupVarint {
 
 	private int readInt(byte[] in, int inOffset) {
 		
-		int v = theUnsafe.getInt(in, (long) Unsafe.ARRAY_BYTE_BASE_OFFSET + (inOffset * Unsafe.ARRAY_BYTE_INDEX_SCALE));
+		int v = theUnsafe.getIntVolatile(in, (long) Unsafe.ARRAY_BYTE_BASE_OFFSET + (inOffset * Unsafe.ARRAY_BYTE_INDEX_SCALE));
 		return (IS_LITTLE_ENDIAN) ? v : Integer.reverseBytes(v);
 	}
 

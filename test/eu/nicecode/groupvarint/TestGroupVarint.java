@@ -19,7 +19,7 @@ public class TestGroupVarint {
 		int c[] = new int[a.length];
 		
 		groupVarint.compress(a, 0, a.length, b, 0);
-		groupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.decompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -32,7 +32,7 @@ public class TestGroupVarint {
 		int c[] = new int[a.length];
 		
 		groupVarint.compress(a, 0, a.length, b, 0);
-		groupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.decompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -45,7 +45,7 @@ public class TestGroupVarint {
 		int c[] = new int[a.length];
 		
 		groupVarint.compress(a, 0, a.length, b, 0);
-		groupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.decompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -58,7 +58,7 @@ public class TestGroupVarint {
 		int c[] = new int[a.length];
 		
 		groupVarint.compress(a, 0, a.length, b, 0);
-		groupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.decompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -71,7 +71,7 @@ public class TestGroupVarint {
 		int c[] = new int[a.length];
 		
 		groupVarint.compress(a, 0, a.length, b, 0);
-		groupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.decompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -84,7 +84,7 @@ public class TestGroupVarint {
 		int c[] = new int[a.length];
 		
 		groupVarint.compress(a, 0, a.length, b, 0);
-		groupVarint.uncompress(b, 0, c, 0, a.length);
+		groupVarint.decompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -98,7 +98,7 @@ public class TestGroupVarint {
 		int support[] = Arrays.copyOf(a, a.length);
 		
 		zigZagGroupVarint.compress(support, 0, support.length, b, 0);
-		zigZagGroupVarint.uncompress(b, 0, c, 0, a.length);
+		zigZagGroupVarint.decompress(b, 0, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}
@@ -112,7 +112,7 @@ public class TestGroupVarint {
 		c[0] = 1;
 		
 		groupVarint.compress(a, 1, a.length - 1, b, 0);
-		groupVarint.uncompress(b, 0, c, 1, a.length - 1);
+		groupVarint.decompress(b, 0, c, 1, a.length - 1);
 		
 		assertArrayEquals(a, c);
 	}
@@ -126,7 +126,7 @@ public class TestGroupVarint {
 		c[0] = 1;
 		
 		groupVarint.compress(a, 0, a.length, b, 10);
-		groupVarint.uncompress(b, 10, c, 0, a.length);
+		groupVarint.decompress(b, 10, c, 0, a.length);
 		
 		assertArrayEquals(a, c);
 	}

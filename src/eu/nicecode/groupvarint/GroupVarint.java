@@ -1,3 +1,18 @@
+/*
+ * Copyright 2016 Matteo Catena
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package eu.nicecode.groupvarint;
 
 import java.lang.reflect.Field;
@@ -118,10 +133,10 @@ public class GroupVarint {
 	 * @param outOffset
 	 *            {@code out} starting offset
 	 * @param length
-	 *            number of ints to be uncompressed
+	 *            number of ints to be decompressed
 	 * @return num of read bytes
 	 */
-	public int uncompress(byte[] in, int inOffset,
+	public int decompress(byte[] in, int inOffset,
 			int[] out, int outOffset, int length) {
 
 		int cond = length / 4 * 4;
@@ -131,13 +146,13 @@ public class GroupVarint {
 
 		while (readInts < cond) {
 
-			final int selector = 0xFF & in[inOffset + readBytes];
+			int selector = 0xFF & in[inOffset + readBytes];
 			readBytes += 1;
 
-			final int s0 = selector >>> 6;
-			final int s1 = 0x3 & (selector >>> 4);
-			final int s2 = 0x3 & (selector >>> 2);
-			final int s3 = 0x3 & selector;
+			int s0 = selector >>> 6;
+			int s1 = 0x3 & (selector >>> 4);
+			int s2 = 0x3 & (selector >>> 2);
+			int s3 = 0x3 & selector;
 
 			out[outOffset + readInts] = readInt(in, inOffset + readBytes) & MASKS[s0];
 			readBytes += s0 + 1;
@@ -182,7 +197,7 @@ public class GroupVarint {
 	 *            Number of ints in the uncompressed int array
 	 * @return Upperbound on the number of bytes in the compressed byte array
 	 */
-	public static final int getCompressedSize(int num) {
+	public static int getCompressedSize(int num) {
 
 		if (num < 4)
 			return num * 4;

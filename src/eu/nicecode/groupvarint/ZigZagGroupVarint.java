@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Matteo Catena
+ * Copyright 2016 Matteo Catena
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ public class ZigZagGroupVarint {
 	}
 
 	/**
-	 * See {@link GroupVarint#uncompress(byte[], int, int[], int, int)}
+	 * See {@link GroupVarint#decompress(byte[], int, int[], int, int)}
 	 * 
 	 * @param in
 	 * @param inOffset
@@ -61,10 +61,10 @@ public class ZigZagGroupVarint {
 	 * @param num
 	 * @return new offset in in[]
 	 */
-	public final int uncompress(byte[] in, int inOffset, int[] out,
+	public final int decompress(byte[] in, int inOffset, int[] out,
 			int outOffset, int num) {
 
-		int rtn = groupVarint.uncompress(in, inOffset, out, outOffset, num);
+		int rtn = groupVarint.decompress(in, inOffset, out, outOffset, num);
 		for (int i = 0; i < num; i++)
 			out[outOffset + i] = zag(out[outOffset + i]);
 		return rtn;

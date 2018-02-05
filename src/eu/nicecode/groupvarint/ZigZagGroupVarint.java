@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Matteo Catena
+ * Copyright 2016-2018 Matteo Catena
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,14 +23,10 @@ package eu.nicecode.groupvarint;
  * @author Matteo Catena
  *
  */
-public class ZigZagGroupVarint {
+public final class ZigZagGroupVarint {
 
-	private GroupVarint groupVarint;
 	
-	public ZigZagGroupVarint() {
-		
-		groupVarint = new GroupVarint();
-	}
+	private ZigZagGroupVarint() {}
 
 	/**
 	 * See {@link GroupVarint#compress(int[], int, int, byte[], int)} Be
@@ -43,12 +39,12 @@ public class ZigZagGroupVarint {
 	 * @param outOffset
 	 * @return new offset in out[]
 	 */
-	public final int compress(int[] in, int inOffset, int length, byte[] out,
-			int outOffset) {
+	public static int compress(final int[] in, final int inOffset, final int length, final byte[] out,
+			final int outOffset) {
 
 		for (int i = 0; i < length; i++)
 			in[inOffset + i] = zig(in[inOffset + i]);
-		return groupVarint.compress(in, inOffset, length, out, outOffset);
+		return GroupVarint.compress(in, inOffset, length, out, outOffset);
 	}
 
 	/**
@@ -61,22 +57,22 @@ public class ZigZagGroupVarint {
 	 * @param num
 	 * @return new offset in in[]
 	 */
-	public final int decompress(byte[] in, int inOffset, int[] out,
-			int outOffset, int num) {
+	public static int decompress(final byte[] in, final int inOffset, final int[] out,
+			final int outOffset, final int num) {
 
-		int rtn = groupVarint.decompress(in, inOffset, out, outOffset, num);
+		int rtn = GroupVarint.decompress(in, inOffset, out, outOffset, num);
 		for (int i = 0; i < num; i++)
 			out[outOffset + i] = zag(out[outOffset + i]);
 		return rtn;
 	}
 
 	/** From two's complement to zigzag. */
-	private int zig(int n) {
+	private static int zig(final int n) {
 		return (n << 1) ^ (n >> 31);
 	}
 
 	/** From zigzag to two's complement. */
-	private int zag(int n) {
+	private static int zag(final int n) {
 		return (n >>> 1) ^ -(n & 1);
 	}
 

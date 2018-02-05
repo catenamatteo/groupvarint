@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Matteo Catena
+ * Copyright 2016-2018 Matteo Catena
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,25 +22,26 @@ import sun.misc.Unsafe;
 
 @SuppressWarnings("restriction")
 /**
- * A Java implementation of groupvarint, described by J.Dean in
- * "Challenges in Building Large-Scale Information Retrieval Systems" at WSDM'09
+ * A Java implementation of groupvarint, described by J.Dean in "Challenges in
+ * Building Large-Scale Information Retrieval Systems" at WSDM'09
  * 
  * @author Matteo Catena
  * 
  */
-public class GroupVarint {
+public final class GroupVarint {
 
-	private final static byte[] NUM_BYTES = { 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3,
-			3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+	private final static byte[] NUM_BYTES = { 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1,
+			1, 1, 1, 1, 1, 1, 1, 1 };
+
 	private final static int[] MASKS = { 0xFF, 0xFFFF, 0xFFFFFF, 0xFFFFFFFF };
+
 	private final static boolean IS_LITTLE_ENDIAN = ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN;
 
-	private Unsafe theUnsafe;
+	private final static Unsafe theUnsafe;
 
-	public GroupVarint() {
+	static {
 
 		Unsafe tmpUnsafe = null;
-
 		try {
 
 			Field f = Unsafe.class.getDeclaredField("theUnsafe");
@@ -60,13 +61,16 @@ public class GroupVarint {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		theUnsafe = tmpUnsafe;
+
 	}
 
-	private int getNumOfBytes(int v) {
+	private GroupVarint() {
+	}
 
-		int x = Integer.numberOfLeadingZeros(v);
+	private static int getNumOfBytes(final int v) {
+
+		final int x = Integer.numberOfLeadingZeros(v);
 		return NUM_BYTES[x];
 	}
 
@@ -86,22 +90,21 @@ public class GroupVarint {
 	 *            {@code out} starting offset
 	 * @return num of written bytes
 	 */
-	public int compress(int[] in, int inOffset, int length, byte[] out,
-			int outOffset) {
+	public static int compress(final int[] in, final int inOffset, final int length, final byte[] out,
+			final int outOffset) {
 
-		int cond = length / 4 * 4;
+		final int cond = length / Integer.BYTES * Integer.BYTES;
 
 		int writtenInts = 0;
 		int writtenBytes = 0;
 
 		while (writtenInts < cond) {
 
-			int nb0 = getNumOfBytes(in[inOffset + writtenInts]);
-			int nb1 = getNumOfBytes(in[inOffset + writtenInts + 1]);
-			int nb2 = getNumOfBytes(in[inOffset + writtenInts + 2]);
-			int nb3 = getNumOfBytes(in[inOffset + writtenInts + 3]);
-			byte selector = (byte) (((nb0 - 1) << 6) | ((nb1 - 1) << 4)
-					| ((nb2 - 1) << 2) | (nb3 - 1));
+			final int nb0 = getNumOfBytes(in[inOffset + writtenInts]);
+			final int nb1 = getNumOfBytes(in[inOffset + writtenInts + 1]);
+			final int nb2 = getNumOfBytes(in[inOffset + writtenInts + 2]);
+			final int nb3 = getNumOfBytes(in[inOffset + writtenInts + 3]);
+			final byte selector = (byte) (((nb0 - 1) << 6) | ((nb1 - 1) << 4) | ((nb2 - 1) << 2) | (nb3 - 1));
 
 			out[outOffset + writtenBytes] = selector;
 			writtenBytes += 1;
@@ -121,7 +124,7 @@ public class GroupVarint {
 		for (int i = 0; i < length - cond; i++) {
 
 			writeInt(out, outOffset + writtenBytes, in[inOffset + writtenInts]);
-			writtenBytes += 4;
+			writtenBytes += Integer.BYTES;
 			writtenInts += 1;
 		}
 
@@ -143,23 +146,24 @@ public class GroupVarint {
 	 *            number of ints to be decompressed
 	 * @return num of read bytes
 	 */
-	public int decompress(byte[] in, int inOffset,
-			int[] out, int outOffset, int length) {
+	public static int decompress(final byte[] in, final int inOffset, final int[] out, final int outOffset,
+			final int length) {
 
-		int cond = length / 4 * 4;
+		final int cond = length / Integer.BYTES * Integer.BYTES;
 
 		int readBytes = 0;
 		int readInts = 0;
 
 		while (readInts < cond) {
 
-			int selector = 0xFF & in[inOffset + readBytes];
+			final int selector = 0xFF & in[inOffset + readBytes];
 			readBytes += 1;
 
-			int s0 = selector >>> 6;
-			int s1 = 0x3 & (selector >>> 4);
-			int s2 = 0x3 & (selector >>> 2);
-			int s3 = 0x3 & selector;
+
+			final int s0 = selector >>> 6;
+			final int s1 = 0x3 & (selector >>> 4);
+			final int s2 = 0x3 & (selector >>> 2);
+			final int s3 = 0x3 & selector;
 
 			out[outOffset + readInts] = readInt(in, inOffset + readBytes) & MASKS[s0];
 			readBytes += s0 + 1;
@@ -169,30 +173,29 @@ public class GroupVarint {
 			readBytes += s2 + 1;
 			out[outOffset + readInts + 3] = readInt(in, inOffset + readBytes) & MASKS[s3];
 			readBytes += s3 + 1;
-			
+
 			readInts += 4;
 		}
 
 		for (int i = 0; i < length - cond; i++) {
 
 			out[outOffset + readInts] = readInt(in, inOffset + readBytes);
-			readBytes += 4;
+			readBytes += Integer.BYTES;
 			readInts += 1;
 		}
 
 		return readBytes;
 	}
 
-	private void writeInt(byte[] out, int outOffset, int v) {
+	private static void writeInt(final byte[] out, final int outOffset, int v) {
 
 		v = (IS_LITTLE_ENDIAN) ? v : Integer.reverseBytes(v);
-		theUnsafe.putInt(out, (long) Unsafe.ARRAY_BYTE_BASE_OFFSET + (outOffset
-				* Unsafe.ARRAY_BYTE_INDEX_SCALE), v);
+		theUnsafe.putInt(out, (long) Unsafe.ARRAY_BYTE_BASE_OFFSET + (outOffset * Unsafe.ARRAY_BYTE_INDEX_SCALE), v);
 
 	}
 
-	private int readInt(byte[] in, int inOffset) {
-		
+	private static int readInt(final byte[] in, final int inOffset) {
+
 		int v = theUnsafe.getIntVolatile(in, (long) Unsafe.ARRAY_BYTE_BASE_OFFSET + (inOffset * Unsafe.ARRAY_BYTE_INDEX_SCALE));
 		return (IS_LITTLE_ENDIAN) ? v : Integer.reverseBytes(v);
 	}
@@ -204,7 +207,7 @@ public class GroupVarint {
 	 *            Number of ints in the uncompressed int array
 	 * @return Upperbound on the number of bytes in the compressed byte array
 	 */
-	public static int getCompressedSize(int num) {
+	public static int getCompressedSize(final int num) {
 
 		if (num < 4)
 			return num * 4;

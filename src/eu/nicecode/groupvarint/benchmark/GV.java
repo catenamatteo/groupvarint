@@ -5,13 +5,6 @@ import me.lemire.integercompression.ByteIntegerCODEC;
 import me.lemire.integercompression.IntWrapper;
 
 public class GV implements ByteIntegerCODEC {
-
-	private GroupVarint gv;
-
-	public GV() {
-		
-		this.gv = new GroupVarint();
-	}
 	
 	private void writeUncompressedInt(int in, byte[] out, int outOffset) {
 
@@ -41,7 +34,7 @@ public class GV implements ByteIntegerCODEC {
 		writeUncompressedInt(inlength, out, outOffset);
 		outOffset+=4;
 		
-		int offset = gv.compress(in, inOffset, inlength, out, outOffset);
+		int offset = GroupVarint.compress(in, inOffset, inlength, out, outOffset);
 		outOffset+=offset;
 		inOffset+=inlength;
 		
@@ -59,7 +52,7 @@ public class GV implements ByteIntegerCODEC {
 		int len = readUncompressedInt(in, inOffset);
 		inOffset+=4;
 		
-		int offset = gv.decompress(in, inOffset, out, outOffset, len);
+		int offset = GroupVarint.decompress(in, inOffset, out, outOffset, len);
 		inOffset+=offset;
 		outOffset+=len;
 		

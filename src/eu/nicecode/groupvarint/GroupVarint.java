@@ -15,12 +15,10 @@
  */
 package eu.nicecode.groupvarint;
 
-import java.lang.reflect.Field;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.nio.ByteOrder;
 
-import sun.misc.Unsafe;
-
-@SuppressWarnings("restriction")
 /**
  * A Java implementation of groupvarint, described by J.Dean in "Challenges in
  * Building Large-Scale Information Retrieval Systems" at WSDM'09
@@ -37,36 +35,11 @@ public final class GroupVarint {
 
 	private final static boolean IS_LITTLE_ENDIAN = ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN;
 
-	private final static Unsafe theUnsafe;
+	public static final VarHandle LITTLE_ENDIAN_INT = MethodHandles.byteArrayViewVarHandle(int[].class, ByteOrder.LITTLE_ENDIAN);
 
-	static {
+	private static final VarHandle BIG_ENDIAN_INT = MethodHandles.byteArrayViewVarHandle(int[].class, ByteOrder.BIG_ENDIAN);
 
-		Unsafe tmpUnsafe = null;
-		try {
-
-			Field f = Unsafe.class.getDeclaredField("theUnsafe");
-			f.setAccessible(true);
-			tmpUnsafe = (Unsafe) f.get(null);
-
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		theUnsafe = tmpUnsafe;
-
-	}
-
-	private GroupVarint() {
-	}
+	private GroupVarint() {}
 
 	private static int getNumOfBytes(final int v) {
 
@@ -189,15 +162,15 @@ public final class GroupVarint {
 
 	private static void writeInt(final byte[] out, final int outOffset, int v) {
 
-		v = (IS_LITTLE_ENDIAN) ? v : Integer.reverseBytes(v);
-		theUnsafe.putInt(out, (long) Unsafe.ARRAY_BYTE_BASE_OFFSET + (outOffset * Unsafe.ARRAY_BYTE_INDEX_SCALE), v);
-
+		if (IS_LITTLE_ENDIAN)
+			LITTLE_ENDIAN_INT.set(out, outOffset, v);
+		else
+			BIG_ENDIAN_INT.set(out, outOffset, v);
 	}
 
 	private static int readInt(final byte[] in, final int inOffset) {
 
-		int v = theUnsafe.getIntVolatile(in, (long) Unsafe.ARRAY_BYTE_BASE_OFFSET + (inOffset * Unsafe.ARRAY_BYTE_INDEX_SCALE));
-		return (IS_LITTLE_ENDIAN) ? v : Integer.reverseBytes(v);
+		return (IS_LITTLE_ENDIAN) ? (int) LITTLE_ENDIAN_INT.get(in, inOffset) : (int) BIG_ENDIAN_INT.get(in, inOffset);
 	}
 
 	/**

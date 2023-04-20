@@ -239,6 +239,14 @@ public class Benchmark {
                         testByteCodec(csvLog, sparsity, new GV(),
                                 data, repeat, true);
                         System.out.println();
+
+                        testByteCodec(csvLog, sparsity, new SIMDGV(),
+                          data, repeat, false);
+                        testByteCodec(csvLog, sparsity, new SIMDGV(),
+                          data, repeat, false);
+                        testByteCodec(csvLog, sparsity, new SIMDGV(),
+                          data, repeat, true);
+                        System.out.println();
                 }
         }
 }

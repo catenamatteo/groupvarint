@@ -33,18 +33,12 @@ public final class GroupVarint {
 
 	private final static int[] MASKS = { 0xFF, 0xFFFF, 0xFFFFFF, 0xFFFFFFFF };
 
-	private final static boolean IS_LITTLE_ENDIAN = ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN;
-
 	public static final VarHandle LITTLE_ENDIAN_INT = MethodHandles.byteArrayViewVarHandle(int[].class, ByteOrder.LITTLE_ENDIAN);
-
-	private static final VarHandle BIG_ENDIAN_INT = MethodHandles.byteArrayViewVarHandle(int[].class, ByteOrder.BIG_ENDIAN);
 
 	private GroupVarint() {}
 
 	private static int getNumOfBytes(final int v) {
-
-		final int x = Integer.numberOfLeadingZeros(v);
-		return NUM_BYTES[x];
+		return NUM_BYTES[Integer.numberOfLeadingZeros(v)];
 	}
 
 	/**
@@ -66,37 +60,35 @@ public final class GroupVarint {
 	public static int compress(final int[] in, final int inOffset, final int length, final byte[] out,
 			final int outOffset) {
 
-		final int cond = length / Integer.BYTES * Integer.BYTES;
+		final int loopBound = length / Integer.BYTES * Integer.BYTES;
 
 		int writtenInts = 0;
 		int writtenBytes = 0;
 
-		while (writtenInts < cond) {
+		while (writtenInts < loopBound) {
 
+			final int selectorOffset = outOffset + writtenBytes;
 			final int nb0 = getNumOfBytes(in[inOffset + writtenInts]);
-			final int nb1 = getNumOfBytes(in[inOffset + writtenInts + 1]);
-			final int nb2 = getNumOfBytes(in[inOffset + writtenInts + 2]);
-			final int nb3 = getNumOfBytes(in[inOffset + writtenInts + 3]);
-			final byte selector = (byte) (((nb0 - 1) << 6) | ((nb1 - 1) << 4) | ((nb2 - 1) << 2) | (nb3 - 1));
-
-			out[outOffset + writtenBytes] = selector;
-			writtenBytes += 1;
-
-			writeInt(out, outOffset + writtenBytes, in[inOffset + writtenInts]);
+			LITTLE_ENDIAN_INT.set(out, outOffset + writtenBytes + 1, in[inOffset + writtenInts]);
 			writtenBytes += nb0;
-			writeInt(out, outOffset + writtenBytes, in[inOffset + writtenInts + 1]);
+			final int nb1 = getNumOfBytes(in[inOffset + writtenInts + 1]);
+			LITTLE_ENDIAN_INT.set(out, outOffset + writtenBytes + 1, in[inOffset + writtenInts + 1]);
 			writtenBytes += nb1;
-			writeInt(out, outOffset + writtenBytes, in[inOffset + writtenInts + 2]);
+			final int nb2 = getNumOfBytes(in[inOffset + writtenInts + 2]);
+			LITTLE_ENDIAN_INT.set(out, outOffset + writtenBytes + 1, in[inOffset + writtenInts + 2]);
 			writtenBytes += nb2;
-			writeInt(out, outOffset + writtenBytes, in[inOffset + writtenInts + 3]);
+			final int nb3 = getNumOfBytes(in[inOffset + writtenInts + 3]);
+			LITTLE_ENDIAN_INT.set(out, outOffset + writtenBytes + 1, in[inOffset + writtenInts + 3]);
 			writtenBytes += nb3;
+			out[selectorOffset] = (byte) (((nb0 - 1) << 6) | ((nb1 - 1) << 4) | ((nb2 - 1) << 2) | (nb3 - 1));
+			writtenBytes += 1;
 
 			writtenInts += 4;
 		}
 
-		for (int i = 0; i < length - cond; i++) {
+		for (int i = 0; i < length - loopBound; i++) {
 
-			writeInt(out, outOffset + writtenBytes, in[inOffset + writtenInts]);
+			LITTLE_ENDIAN_INT.set(out, outOffset + writtenBytes, in[inOffset + writtenInts]);
 			writtenBytes += Integer.BYTES;
 			writtenInts += 1;
 		}
@@ -122,55 +114,40 @@ public final class GroupVarint {
 	public static int decompress(final byte[] in, final int inOffset, final int[] out, final int outOffset,
 			final int length) {
 
-		final int cond = length / Integer.BYTES * Integer.BYTES;
+		final int loopBound = length / Integer.BYTES * Integer.BYTES;
 
 		int readBytes = 0;
 		int readInts = 0;
 
-		while (readInts < cond) {
+		while (readInts < loopBound) {
 
 			final int selector = 0xFF & in[inOffset + readBytes];
 			readBytes += 1;
 
-
 			final int s0 = selector >>> 6;
-			final int s1 = 0x3 & (selector >>> 4);
-			final int s2 = 0x3 & (selector >>> 2);
-			final int s3 = 0x3 & selector;
-
-			out[outOffset + readInts] = readInt(in, inOffset + readBytes) & MASKS[s0];
+			out[outOffset + readInts] = ((int) LITTLE_ENDIAN_INT.get(in, inOffset + readBytes)) & MASKS[s0];
 			readBytes += s0 + 1;
-			out[outOffset + readInts + 1] = readInt(in, inOffset + readBytes) & MASKS[s1];
+			final int s1 = 0x3 & (selector >>> 4);
+			out[outOffset + readInts + 1] = ((int) LITTLE_ENDIAN_INT.get(in, inOffset + readBytes)) & MASKS[s1];
 			readBytes += s1 + 1;
-			out[outOffset + readInts + 2] = readInt(in, inOffset + readBytes) & MASKS[s2];
+			final int s2 = 0x3 & (selector >>> 2);
+			out[outOffset + readInts + 2] = ((int) LITTLE_ENDIAN_INT.get(in, inOffset + readBytes)) & MASKS[s2];
 			readBytes += s2 + 1;
-			out[outOffset + readInts + 3] = readInt(in, inOffset + readBytes) & MASKS[s3];
+			final int s3 = 0x3 & selector;
+			out[outOffset + readInts + 3] = ((int) LITTLE_ENDIAN_INT.get(in, inOffset + readBytes)) & MASKS[s3];
 			readBytes += s3 + 1;
 
 			readInts += 4;
 		}
 
-		for (int i = 0; i < length - cond; i++) {
+		for (int i = 0; i < length - loopBound; i++) {
 
-			out[outOffset + readInts] = readInt(in, inOffset + readBytes);
+			out[outOffset + readInts] = (int) LITTLE_ENDIAN_INT.get(in, inOffset + readBytes);
 			readBytes += Integer.BYTES;
 			readInts += 1;
 		}
 
 		return readBytes;
-	}
-
-	private static void writeInt(final byte[] out, final int outOffset, int v) {
-
-		if (IS_LITTLE_ENDIAN)
-			LITTLE_ENDIAN_INT.set(out, outOffset, v);
-		else
-			BIG_ENDIAN_INT.set(out, outOffset, v);
-	}
-
-	private static int readInt(final byte[] in, final int inOffset) {
-
-		return (IS_LITTLE_ENDIAN) ? (int) LITTLE_ENDIAN_INT.get(in, inOffset) : (int) BIG_ENDIAN_INT.get(in, inOffset);
 	}
 
 	/**

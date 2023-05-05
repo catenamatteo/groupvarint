@@ -126,4 +126,52 @@ public final class SIMDGroupVarint {
 
 		return readBytes;
 	}
+
+	/**
+	 * Uncompress a byte array into an int array
+	 *
+	 * @param in
+	 *            the compressed byte array (origin)
+	 * @param inOffset
+	 *            {@code in} starting offset
+	 * @param out
+	 *            the uncompressed int array (destination)
+	 * @param outOffset
+	 *            {@code out} starting offset
+	 * @param length
+	 *            number of ints to be decompressed
+	 * @return num of read bytes
+	 */
+	public static int decompress(final byte[] in, final int inOffset, final byte[] out, final int outOffset,
+								 final int length) {
+
+		final int loopBound = length / Integer.BYTES * Integer.BYTES;
+
+		int readBytes = 0;
+		int readInts = 0;
+
+		while (readInts < loopBound) {
+
+			final int selector = 0xFF & in[inOffset + readBytes];
+			readBytes += 1;
+
+			VectorMask<Byte> byteVectorMask = (VectorMask<Byte>) EXPAND_MASK[selector];
+			final int numBytesToLoad = NUM_BYTES_TO_LOAD[selector];
+
+			ByteVector byteVector = ByteVector.fromArray(ByteVector.SPECIES_128, in, inOffset + readBytes, BYTES_TO_LOAD[numBytesToLoad - 4]);
+			byteVector.expand(byteVectorMask).intoArray(out, outOffset + (readInts * Integer.BYTES));
+
+			readBytes += numBytesToLoad;
+			readInts += 4;
+		}
+
+		for (int i = 0; i < length - loopBound; i++) {
+
+			LITTLE_ENDIAN_INT.set(out, outOffset + (readInts * Integer.BYTES), (int) LITTLE_ENDIAN_INT.get(in, inOffset + readBytes));
+			readBytes += Integer.BYTES;
+			readInts += 1;
+		}
+
+		return readBytes;
+	}
 }

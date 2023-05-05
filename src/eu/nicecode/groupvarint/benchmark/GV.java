@@ -32,7 +32,7 @@ public class GV implements ByteIntegerCODEC {
 		int outOffset = outpos.get();
 		
 		writeUncompressedInt(inlength, out, outOffset);
-		outOffset+=4;
+		outOffset+=Integer.BYTES;
 		
 		int offset = GroupVarint.compress(in, inOffset, inlength, out, outOffset);
 		outOffset+=offset;
@@ -50,7 +50,7 @@ public class GV implements ByteIntegerCODEC {
 		int outOffset = outpos.get();
 		
 		int len = readUncompressedInt(in, inOffset);
-		inOffset+=4;
+		inOffset+=Integer.BYTES;
 		
 		int offset = GroupVarint.decompress(in, inOffset, out, outOffset, len);
 		inOffset+=offset;

@@ -1,16 +1,19 @@
 package eu.nicecode.groupvarint.benchmark;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.Arrays;
-
 import me.lemire.integercompression.ByteIntegerCODEC;
 import me.lemire.integercompression.IntWrapper;
 import me.lemire.integercompression.VariableByte;
 import me.lemire.integercompression.differential.Delta;
 import me.lemire.integercompression.differential.IntegratedByteIntegerCODEC;
 import me.lemire.integercompression.synth.ClusteredDataGenerator;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
+import java.nio.ByteOrder;
+import java.util.Arrays;
 
 /**
  * 
@@ -20,6 +23,36 @@ import me.lemire.integercompression.synth.ClusteredDataGenerator;
  * 
  */
 public class Benchmark {
+
+        private static final VarHandle LITTLE_ENDIAN_INT = MethodHandles.byteArrayViewVarHandle(int[].class, ByteOrder.LITTLE_ENDIAN);
+
+        public static void fastinverseDelta(byte[] data) {
+                int sz0 = data.length / 16 * 16;  // 4 ints
+                int i = 4;  // first int
+                if (sz0 >= 16) {  // at least 4 ints
+                        int a = (int) LITTLE_ENDIAN_INT.get(data, 0);
+                        for (; i < sz0 - 16; i += 16) {
+                                int first = (int) LITTLE_ENDIAN_INT.get(data, i);
+                                a += first;
+                                LITTLE_ENDIAN_INT.set(data, i, a);
+                                int second = (int) LITTLE_ENDIAN_INT.get(data, i + 4);
+                                a += second;
+                                LITTLE_ENDIAN_INT.set(data, i + 4, a);
+                                int third = (int) LITTLE_ENDIAN_INT.get(data, i + 8);
+                                a += third;
+                                LITTLE_ENDIAN_INT.set(data, i + 8, a);
+                                int fourth = (int) LITTLE_ENDIAN_INT.get(data, i + 12);
+                                a += fourth;
+                                LITTLE_ENDIAN_INT.set(data, i + 12, a);
+                        }
+                }
+
+                for (; i != data.length; i+=4) {
+                        int prevData = (int) LITTLE_ENDIAN_INT.get(data, i - 4);
+                        int currData = (int) LITTLE_ENDIAN_INT.get(data, i);
+                        LITTLE_ENDIAN_INT.set(data, i, prevData + currData);
+                }
+        }
 
         /**
          * Standard benchmark byte byte-aligned schemes
@@ -35,8 +68,8 @@ public class Benchmark {
          * @param verbose
          *                whether to output result on screen
          */
-        private static void testByteCodec(PrintWriter csvLog, int sparsity,
-                ByteIntegerCODEC c, int[][] data, int repeat, boolean verbose) {
+        private static void testByteIntegerCodec(PrintWriter csvLog, int sparsity,
+                                                 ByteIntegerCODEC c, int[][] data, int repeat, boolean verbose) {
                 if (verbose) {
                         System.out.println("# " + c.toString());
                         System.out
@@ -143,6 +176,127 @@ public class Benchmark {
         }
 
         /**
+         * Standard benchmark byte byte-aligned schemes
+         *
+         * @param csvLog
+         *                Writer for CSV log.
+         * @param c
+         *                the codec
+         * @param data
+         *                arrays of input data
+         * @param repeat
+         *                How many times to repeat the test
+         * @param verbose
+         *                whether to output result on screen
+         */
+        private static void testByteByteCodec(PrintWriter csvLog, int sparsity,
+                                          ByteByteCODEC c, int[][] data, int repeat, boolean verbose) {
+                if (verbose) {
+                        System.out.println("# " + c.toString());
+                        System.out
+                          .println("# bits per int, compress speed (mis), decompression speed (mis) ");
+                }
+
+                int N = data.length;
+
+                int totalSize = 0;
+                int maxLength = 0;
+                for (int k = 0; k < N; ++k) {
+                        totalSize += data[k].length;
+                        if (data[k].length > maxLength) {
+                                maxLength = data[k].length;
+                        }
+                }
+
+                byte[] compressBuffer = new byte[8 * maxLength + 1024];
+                byte[] decompressBuffer = new byte[(maxLength + 1024) * Integer.BYTES];
+
+                // These variables hold time in microseconds (10^-6).
+                long compressTime = 0;
+                long decompressTime = 0;
+
+                int size = 0;
+                IntWrapper inpos = new IntWrapper();
+                IntWrapper outpos = new IntWrapper();
+
+                for (int r = 0; r < repeat; ++r) {
+                        size = 0;
+                        for (int k = 0; k < N; ++k) {
+                                int[] backupdata = Arrays.copyOf(data[k],
+                                  data[k].length);
+
+                                // compress data.
+                                long beforeCompress = System.nanoTime() / 1000;
+                                inpos.set(1);
+                                outpos.set(0);
+                                if (!(c instanceof IntegratedByteIntegerCODEC)) {
+                                        Delta.delta(backupdata);
+                                }
+                                c.compress(backupdata, inpos, backupdata.length
+                                  - inpos.get(), compressBuffer, outpos);
+                                long afterCompress = System.nanoTime() / 1000;
+
+                                // measure time of compression.
+                                compressTime += afterCompress - beforeCompress;
+                                final int thiscompsize = outpos.get() + 1;
+                                size += thiscompsize;
+
+                                // extract (uncompress) data
+                                long beforeDecompress = System.nanoTime() / 1000;
+                                inpos.set(0);
+                                outpos.set(Integer.BYTES);
+                                LITTLE_ENDIAN_INT.set(decompressBuffer, 0, backupdata[0]);
+                                c.uncompress(compressBuffer, inpos,
+                                  thiscompsize - 1, decompressBuffer,
+                                  outpos);
+                                fastinverseDelta(decompressBuffer);
+                                long afterDecompress = System.nanoTime() / 1000;
+
+                                // measure time of extraction (uncompression).
+                                decompressTime += afterDecompress
+                                  - beforeDecompress;
+                                if (outpos.get() / Integer.BYTES != data[k].length)
+                                        throw new RuntimeException(
+                                          "we have a bug (diff length) "
+                                            + c + " expected "
+                                            + data[k].length
+                                            + " got "
+                                            + outpos.get());
+
+                                // verify: compare original array with
+                                // compressed and
+                                // uncompressed.
+                                for (int m = 0; m < outpos.get() / Integer.BYTES; ++m) {
+                                        int currData = (int) LITTLE_ENDIAN_INT.get(decompressBuffer, m * Integer.BYTES);
+                                        if (currData != data[k][m]) {
+                                                throw new RuntimeException(
+                                                  "we have a bug (actual difference), expected "
+                                                    + data[k][m]
+                                                    + " found "
+                                                    + currData
+                                                    + " at " + m);
+                                        }
+                                }
+                        }
+                }
+
+                if (verbose) {
+                        double bitsPerInt = size * 8.0 / totalSize;
+                        long compressSpeed = totalSize * repeat
+                          / (compressTime);
+                        long decompressSpeed = totalSize * repeat
+                          / (decompressTime);
+                        System.out.println(String.format(
+                          "\t%1$.2f\t%2$d\t%3$d", bitsPerInt,
+                          compressSpeed, decompressSpeed));
+                        csvLog.format("\"%1$s\",%2$d,%3$.2f,%4$d,%5$d\n",
+                          c.toString(), sparsity, bitsPerInt,
+                          compressSpeed, decompressSpeed);
+                        csvLog.flush();
+                }
+        }
+
+        /**
          * Main method.
          * 
          * @param args
@@ -224,27 +378,35 @@ public class Benchmark {
                         int[][] data = generateTestData(cdg, N, nbr, sparsity);
                         System.out.println("# generating random data... ok.");
 
-                        testByteCodec(csvLog, sparsity, new VariableByte(),
+                        testByteIntegerCodec(csvLog, sparsity, new VariableByte(),
                                 data, repeat, false);
-                        testByteCodec(csvLog, sparsity, new VariableByte(),
+                        testByteIntegerCodec(csvLog, sparsity, new VariableByte(),
                                 data, repeat, false);
-                        testByteCodec(csvLog, sparsity, new VariableByte(),
+                        testByteIntegerCodec(csvLog, sparsity, new VariableByte(),
                                 data, repeat, true);
                         System.out.println();
                         
-                        testByteCodec(csvLog, sparsity, new GV(),
+                        testByteIntegerCodec(csvLog, sparsity, new GV(),
                                 data, repeat, false);
-                        testByteCodec(csvLog, sparsity, new GV(),
+                        testByteIntegerCodec(csvLog, sparsity, new GV(),
                                 data, repeat, false);
-                        testByteCodec(csvLog, sparsity, new GV(),
+                        testByteIntegerCodec(csvLog, sparsity, new GV(),
                                 data, repeat, true);
                         System.out.println();
 
-                        testByteCodec(csvLog, sparsity, new SIMDGV(),
+                        testByteByteCodec(csvLog, sparsity, new ByteByteSIMDGV(),
                           data, repeat, false);
-                        testByteCodec(csvLog, sparsity, new SIMDGV(),
+                        testByteByteCodec(csvLog, sparsity, new ByteByteSIMDGV(),
                           data, repeat, false);
-                        testByteCodec(csvLog, sparsity, new SIMDGV(),
+                        testByteByteCodec(csvLog, sparsity, new ByteByteSIMDGV(),
+                          data, repeat, true);
+                        System.out.println();
+
+                        testByteIntegerCodec(csvLog, sparsity, new SIMDGV(),
+                          data, repeat, false);
+                        testByteIntegerCodec(csvLog, sparsity, new SIMDGV(),
+                          data, repeat, false);
+                        testByteIntegerCodec(csvLog, sparsity, new SIMDGV(),
                           data, repeat, true);
                         System.out.println();
                 }

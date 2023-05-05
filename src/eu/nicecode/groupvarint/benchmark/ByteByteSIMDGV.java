@@ -1,11 +1,10 @@
 package eu.nicecode.groupvarint.benchmark;
 
-import eu.nicecode.groupvarint.GroupVarint;
 import eu.nicecode.groupvarint.SIMDGroupVarint;
 import me.lemire.integercompression.ByteIntegerCODEC;
 import me.lemire.integercompression.IntWrapper;
 
-public class SIMDGV implements ByteIntegerCODEC  {
+public class ByteByteSIMDGV implements ByteByteCODEC {
 	
 	private void writeUncompressedInt(int in, byte[] out, int outOffset) {
 
@@ -44,26 +43,24 @@ public class SIMDGV implements ByteIntegerCODEC  {
 	}
 
 	@Override
-	public void uncompress(byte[] in, IntWrapper inpos, int inlength,
-			int[] out, IntWrapper outpos) {
-		
+	public void uncompress(byte[] in, IntWrapper inpos, int inlength, byte[] out, IntWrapper outpos) {
 		int inOffset = inpos.get();
 		int outOffset = outpos.get();
-		
+
 		int len = readUncompressedInt(in, inOffset);
 		inOffset+=Integer.BYTES;
-		
+
 		int offset = SIMDGroupVarint.decompress(in, inOffset, out, outOffset, len);
 		inOffset+=offset;
-		outOffset+=len;
-		
+		outOffset+=len * Integer.BYTES;
+
 		inpos.set(inOffset);
 		outpos.set(outOffset);
 	}
 	
 	public String toString() {
 		
-		return "SIMDGroupVarint";
+		return "ByteByteSIMDGroupVarint";
 	}
 
 }
